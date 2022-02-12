@@ -3,7 +3,7 @@ from schema import Schema, Or, And
 from datetime import datetime
 from bson.objectid import ObjectId
 
-from page_product.utility import is_url, is_positive
+from page_product.utility import skip_validation, is_url, is_positive
 
 
 def new_product() -> dict:
@@ -37,7 +37,10 @@ def new_product() -> dict:
         "videos": [],
         "url": None,
         "marketplace": None,
-        "created": datetime.utcnow(),
+        "metadata": {
+            "created": datetime.utcnow(),
+            "updated": None,
+        },
     }
 
 
@@ -90,7 +93,10 @@ def _validate_product_types(product: dict):
             "videos": [str],
             "url": str,
             "marketplace": str,
-            "created": datetime,
+            "metadata": {
+                "created": datetime,
+                "updated": Or(datetime, None),
+            },
         }
     ).validate(product)
 
@@ -98,7 +104,7 @@ def _validate_product_types(product: dict):
 def _validate_product_logic(product: dict):
     Schema(
         {
-            "_id": ObjectId,  # No need to validate logic
+            "_id": skip_validation,
             "sku": len,
             "name": len,
             "brand": Or(len, None),
@@ -139,6 +145,9 @@ def _validate_product_logic(product: dict):
             "videos": [And(len, is_url)],
             "url": And(len, is_url),
             "marketplace": len,
-            "created": datetime,  # No need to validate logic
+            "metadata": {
+                "created": skip_validation,
+                "updated": skip_validation,
+            },
         }
     ).validate(product)
