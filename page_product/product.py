@@ -8,7 +8,7 @@ from page_product.utility import is_url, is_positive
 
 def new_product() -> dict:
     return {
-        "_id": str(ObjectId()),
+        "_id": ObjectId(),
         "sku": None,
         "name": None,
         "brand": None,
@@ -37,12 +37,13 @@ def new_product() -> dict:
         "videos": [],
         "url": None,
         "marketplace": None,
-        "created": datetime.utcnow().isoformat(),
+        "created": datetime.utcnow(),
     }
 
 
 def validate_product(product: dict):
-    # Don't like Schema because it returns errors as string
+    # Don't like Schema package because it returns errors as string
+    # but we need some validation, so i'm using it
     _validate_product_types(product)
     _validate_product_logic(product)
 
@@ -50,7 +51,7 @@ def validate_product(product: dict):
 def _validate_product_types(product: dict):
     Schema(
         {
-            "_id": str,
+            "_id": ObjectId,
             "sku": str,
             "name": str,
             "brand": Or(str, None),
@@ -89,7 +90,7 @@ def _validate_product_types(product: dict):
             "videos": [str],
             "url": str,
             "marketplace": str,
-            "created": str,
+            "created": datetime,
         }
     ).validate(product)
 
@@ -97,7 +98,7 @@ def _validate_product_types(product: dict):
 def _validate_product_logic(product: dict):
     Schema(
         {
-            "_id": ObjectId.is_valid,
+            "_id": ObjectId,  # No need to validate logic
             "sku": len,
             "name": len,
             "brand": Or(len, None),
@@ -138,14 +139,6 @@ def _validate_product_logic(product: dict):
             "videos": [And(len, is_url)],
             "url": And(len, is_url),
             "marketplace": len,
-            "created": len,
+            "created": datetime,  # No need to validate logic
         }
     ).validate(product)
-
-
-p = new_product()
-p["sku"] = "-"
-p["name"] = "-"
-p["url"] = "https://www.google.com"
-p["marketplace"] = "https://www.google.com"
-validate_product(p)
