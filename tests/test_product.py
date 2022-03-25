@@ -1,7 +1,6 @@
 import unittest
 from unittest import TestCase
 from datetime import datetime
-from bson.objectid import ObjectId
 
 from page_product import Product, Price, Attribute, Measurement, Rating, Metadata
 
