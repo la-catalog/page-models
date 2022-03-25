@@ -1,153 +1,53 @@
-from gtin import has_valid_check_digit, get_gcp
-from schema import Schema, Or, And
-from datetime import datetime
+from pydantic import BaseModel, validator
 from bson.objectid import ObjectId
 
-from page_product.utility import skip_validation, is_url, is_positive
+from page_product.price import Price
+from page_product.rating import Rating
+from page_product.utility import string_not_empty, gtin_valid, url_valid
+from page_product.metadata import Metadata
+from page_product.attribute import Attribute
+from page_product.measurement import Measurement
 
 
-def new_product() -> dict:
-    return {
-        "_id": ObjectId(),
-        "sku": None,
-        "name": None,
-        "brand": None,
-        "description": None,
-        "gtin": None,
-        "prices": [],
-        "segments": [],
-        "attributes": [],
-        "measurement": {
-            "width": None,
-            "height": None,
-            "length": None,
-        },
-        "package": {
-            "width": None,
-            "height": None,
-            "length": None,
-        },
-        "rating": {
-            "current": None,
-            "min": None,
-            "max": None,
-        },
-        "audios": [],
-        "images": [],
-        "videos": [],
-        "url": None,
-        "marketplace": None,
-        "metadata": {
-            "created": datetime.utcnow(),
-            "updated": None,
-        },
-    }
+class Product(BaseModel):
+    _id: ObjectId = ObjectId()
+    sku: str
+    name: str
+    brand: str | None = None
+    description: str | None = None
+    gtin: str | None = None
+    prices: list[Price] = []
+    segments: list[str] = []
+    attributes: list[Attribute] = []
+    measurement: Measurement = Measurement()
+    package: Measurement = Measurement()
+    rating: Rating = Rating()
+    audios: list[str] = []
+    images: list[str] = []
+    videos: list[str] = []
+    url: str
+    marketplace: str
+    metadata: Metadata
 
+    _string_not_empty = validator(
+        "sku",
+        "name",
+        "brand",
+        "description",
+        "gtin",
+        "url",
+        "marketplace",
+        allow_reuse=True,
+    )(string_not_empty)
 
-def validate_product(product: dict):
-    # Don't like Schema package because it returns errors as string
-    # but we need some validation, so i'm using it
-    _validate_product_types(product)
-    _validate_product_logic(product)
+    _strings_not_empty = validator("segments", allow_reuse=True, each_item=True)(
+        string_not_empty
+    )
 
+    _gtin_valid = validator("gtin", allow_reuse=True)(gtin_valid)
 
-def _validate_product_types(product: dict):
-    Schema(
-        {
-            "_id": ObjectId,
-            "sku": str,
-            "name": str,
-            "brand": Or(str, None),
-            "description": Or(str, None),
-            "gtin": Or(str, None),
-            "prices": [
-                {
-                    "amount": Or(float, None),
-                    "currency": Or(str, None),
-                }
-            ],
-            "segments": [str],
-            "attributes": [
-                {
-                    "name": str,
-                    "value": str,
-                }
-            ],
-            "measurement": {
-                "width": Or(float, None),
-                "height": Or(float, None),
-                "length": Or(float, None),
-            },
-            "package": {
-                "width": Or(float, None),
-                "height": Or(float, None),
-                "length": Or(float, None),
-            },
-            "rating": {
-                "current": Or(float, None),
-                "min": Or(float, None),
-                "max": Or(float, None),
-            },
-            "audios": [str],
-            "images": [str],
-            "videos": [str],
-            "url": str,
-            "marketplace": str,
-            "metadata": {
-                "created": datetime,
-                "updated": Or(datetime, None),
-            },
-        }
-    ).validate(product)
+    _url_valid = validator("url", allow_reuse=True)(url_valid)
 
-
-def _validate_product_logic(product: dict):
-    Schema(
-        {
-            "_id": skip_validation,
-            "sku": len,
-            "name": len,
-            "brand": Or(len, None),
-            "description": Or(len, None),
-            "gtin": Or(And(len, has_valid_check_digit, get_gcp), None),
-            "prices": [
-                {
-                    "amount": Or(is_positive, None),
-                    "currency": Or(is_positive, None),
-                }
-            ],
-            "segments": [
-                len,
-            ],
-            "attributes": [
-                {
-                    "name": len,
-                    "value": len,
-                }
-            ],
-            "measurement": {
-                "width": Or(is_positive, None),
-                "height": Or(is_positive, None),
-                "length": Or(is_positive, None),
-            },
-            "package": {
-                "width": Or(is_positive, None),
-                "height": Or(is_positive, None),
-                "length": Or(is_positive, None),
-            },
-            "rating": {
-                "current": Or(float, None),
-                "min": Or(float, None),
-                "max": Or(float, None),
-            },
-            "audios": [And(len, is_url)],
-            "images": [And(len, is_url)],
-            "videos": [And(len, is_url)],
-            "url": And(len, is_url),
-            "marketplace": len,
-            "metadata": {
-                "created": skip_validation,
-                "updated": skip_validation,
-            },
-        }
-    ).validate(product)
+    _urls_valid = validator(
+        "audios", "images", "videos", allow_reuse=True, each_item=True
+    )(url_valid)

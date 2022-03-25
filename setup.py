@@ -17,13 +17,13 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Operating System :: OS Independent",
     ],
-    keywords="product, create, validate",
+    keywords="product, model",
     license="MIT",
     packages=find_packages(exclude=["tests"]),
     install_requires=[
         "bson==0.5.10",
         "gtin==1.3.1631641032",
-        "schema==0.7.5",
+        "pydantic==1.9.0",
     ],
     python_requires=">=3.7",
 )
