@@ -51,7 +51,7 @@ class TestProduct(TestCase):
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
             ],
-            url="https://www.americanas.com.br/produto/3616585721",
+            urls=["https://www.americanas.com.br/produto/3616585721"],
             marketplace="americanas",
             metadata=Metadata(created=datetime.utcnow()),
         )
@@ -106,7 +106,7 @@ class TestProduct(TestCase):
                     "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                     "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
                 ],
-                "url": "https://www.americanas.com.br/produto/3616585721",
+                "urls": ["https://www.americanas.com.br/produto/3616585721"],
                 "marketplace": "americanas",
                 "metadata": {
                     "created": datetime.utcnow(),
@@ -163,7 +163,7 @@ class TestProduct(TestCase):
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
             ],
-            url="https://www.americanas.com.br/produto/3616585721",
+            urls=["https://www.americanas.com.br/produto/3616585721"],
             marketplace="americanas",
             metadata={
                 "created": datetime.utcnow(),

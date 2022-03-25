@@ -3,7 +3,7 @@ from bson.objectid import ObjectId
 
 from page_product.price import Price
 from page_product.rating import Rating
-from page_product.utility import string_not_empty, gtin_valid, url_valid
+from page_product.utility import string_not_empty, gtin_valid, url_valid, list_not_empty
 from page_product.metadata import Metadata
 from page_product.attribute import Attribute
 from page_product.measurement import Measurement
@@ -25,9 +25,11 @@ class Product(BaseModel):
     audios: list[str] = []
     images: list[str] = []
     videos: list[str] = []
-    url: str
+    urls: list[str]
     marketplace: str
     metadata: Metadata
+
+    _list_not_empty = validator("urls", allow_reuse=True)(list_not_empty)
 
     _string_not_empty = validator(
         "sku",
@@ -35,19 +37,16 @@ class Product(BaseModel):
         "brand",
         "description",
         "gtin",
-        "url",
         "marketplace",
         allow_reuse=True,
     )(string_not_empty)
 
-    _strings_not_empty = validator("segments", allow_reuse=True, each_item=True)(
+    _strings_not_empty = validator("segments", "urls", allow_reuse=True, each_item=True)(
         string_not_empty
     )
 
-    _gtin_valid = validator("gtin", allow_reuse=True)(gtin_valid)
-
-    _url_valid = validator("url", allow_reuse=True)(url_valid)
-
     _urls_valid = validator(
-        "audios", "images", "videos", allow_reuse=True, each_item=True
+        "urls", "audios", "images", "videos", allow_reuse=True, each_item=True
     )(url_valid)
+
+    _gtin_valid = validator("gtin", allow_reuse=True)(gtin_valid)

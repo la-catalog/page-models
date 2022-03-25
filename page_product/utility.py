@@ -15,6 +15,11 @@ def string_not_empty(value: str | None) -> str | None:
     return value
 
 
+def list_not_empty(value: list[str]) -> list[str]:
+    assert len(value) > 0, "List can not be empty"
+    return value
+
+
 def gtin_valid(value: str | None) -> str | None:
     if isinstance(value, str):
         assert has_valid_check_digit(value), "Invalid check digit"
