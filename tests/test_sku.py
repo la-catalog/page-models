@@ -5,8 +5,8 @@ from datetime import datetime
 from page_product import SKU, Price, Attribute, Measurement, Rating, Metadata
 
 
-class TestProduct(TestCase):
-    def test_create_product_from_objects(self) -> None:
+class TestSKU(TestCase):
+    def test_create_sku_from_objects(self) -> None:
         SKU(
             code="3616585721",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
@@ -56,7 +56,7 @@ class TestProduct(TestCase):
             metadata=Metadata(created=datetime.utcnow()),
         )
 
-    def test_create_product_from_dict(self) -> None:
+    def test_create_sku_from_dict(self) -> None:
         SKU(
             **{
                 "code": "3616585721",
@@ -114,7 +114,7 @@ class TestProduct(TestCase):
             }
         )
 
-    def test_create_product_from_hybrid(self) -> None:
+    def test_create_sku_from_hybrid(self) -> None:
         SKU(
             code="3616585721",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
