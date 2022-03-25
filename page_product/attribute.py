@@ -1,9 +1,6 @@
-from pydantic import BaseModel, validator
-from page_product.utility import string_not_empty
+from pydantic import BaseModel, constr
 
 
 class Attribute(BaseModel):
-    name: str
-    value: str
-
-    _string_not_empty = validator("*", allow_reuse=True)(string_not_empty)
+    name: constr(min_length=1, strip_whitespace=True)
+    value: constr(min_length=1, strip_whitespace=True)

@@ -2,13 +2,13 @@ import unittest
 from unittest import TestCase
 from datetime import datetime
 
-from page_product import Product, Price, Attribute, Measurement, Rating, Metadata
+from page_product import SKU, Price, Attribute, Measurement, Rating, Metadata
 
 
 class TestProduct(TestCase):
     def test_create_product_from_objects(self) -> None:
-        Product(
-            sku="3616585721",
+        SKU(
+            code="3616585721",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
             brand="MOTOROLA",
             description="O mais avançado e potente",
@@ -57,9 +57,9 @@ class TestProduct(TestCase):
         )
 
     def test_create_product_from_dict(self) -> None:
-        Product(
+        SKU(
             **{
-                "sku": "3616585721",
+                "code": "3616585721",
                 "name": "Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
                 "brand": "MOTOROLA",
                 "description": "O mais avançado e potente",
@@ -115,8 +115,8 @@ class TestProduct(TestCase):
         )
 
     def test_create_product_from_hybrid(self) -> None:
-        Product(
-            sku="3616585721",
+        SKU(
+            code="3616585721",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
             brand="MOTOROLA",
             description="O mais avançado e potente",
