@@ -14,7 +14,7 @@ setup(
     author_email="thiagola92@gmail.com",
     classifiers=[
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
     ],
     keywords="sku, model",
