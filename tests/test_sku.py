@@ -2,7 +2,7 @@ import unittest
 from unittest import TestCase
 from datetime import datetime
 
-from page_product import SKU, Price, Attribute, Measurement, Rating, Metadata
+from page_sku import SKU, Price, Attribute, Measurement, Rating, Metadata
 
 
 class TestSKU(TestCase):

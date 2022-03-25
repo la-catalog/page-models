@@ -4,12 +4,12 @@ from setuptools import setup, find_packages
 long_description = Path("README.md").read_text()
 
 setup(
-    name="page-product",
+    name="page-sku",
     version="0.0.1",
-    description="Create and validate product",
+    description="Sku model",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/thiagola92/page-product",
+    url="https://github.com/thiagola92/page-sku",
     author="thiagola92",
     author_email="thiagola92@gmail.com",
     classifiers=[
@@ -17,7 +17,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Operating System :: OS Independent",
     ],
-    keywords="product, model",
+    keywords="sku, model",
     license="MIT",
     packages=find_packages(exclude=["tests"]),
     install_requires=[
