@@ -54,10 +54,10 @@ Responsável pelo modelo base de um produto scrapeado.
     * URLs de imagens do sku.
 * videos
     * URLs de videos do sku.
-* source
+* variations
+    * URLs de variações do sku.
+* sources
     * URLs visitados para formar esse sku.
-* products
-    * 
 * links
     * URLs para outros skus, pois dentro de uma página podemos descobrir outros skus para serem scrapeados.
 * marketplace
