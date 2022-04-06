@@ -25,5 +25,5 @@ setup(
         "gtin==1.3.1631641032",
         "pydantic==1.9.0",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.10",
 )
