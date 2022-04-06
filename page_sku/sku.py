@@ -26,8 +26,8 @@ class SKU(BaseModel):
     audios: list[AnyUrl] = []
     images: list[AnyUrl] = []
     videos: list[AnyUrl] = []
-    urls: conlist(AnyUrl, min_items=1)
-    products: list[AnyUrl] = []
+    variations: list[AnyUrl] = []
+    sources: conlist(AnyUrl, min_items=1)
     links: list[AnyUrl] = []
     marketplace: constr(min_length=1, strip_whitespace=True)
     metadata: Metadata
