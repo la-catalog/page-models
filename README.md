@@ -1,4 +1,4 @@
-# page-product
+# page-sku
 Responsável pelo modelo base de um produto scrapeado.  
 
 # install
