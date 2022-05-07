@@ -1,7 +1,10 @@
 # page-product
 Responsável pelo modelo base de um produto scrapeado.  
 
-## model
+# install
+`pip install git+https://github.com/thiagola92/page-sku.git`  
+
+# model
 * _id
     * Identificador único do sku.
 * product
