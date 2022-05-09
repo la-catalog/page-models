@@ -30,7 +30,7 @@ class SKU(BaseModel):
     sources: conlist(AnyUrl, min_items=1)
     links: list[AnyUrl] = []
     marketplace: constr(min_length=1, strip_whitespace=True)
-    metadata: Metadata
+    metadata: Metadata = Metadata()
 
     # To allow ObjectId type
     class Config:
