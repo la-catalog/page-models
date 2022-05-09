@@ -42,3 +42,12 @@ class SKU(BaseModel):
             assert has_valid_check_digit(value), "Invalid check digit"
             assert int(get_gcp(value)), "Invalid GCP"
         return value
+
+    def json(self, *args, **kwargs) -> str:
+        def _encoder(value):
+            if isinstance(value, ObjectId):
+                return str(value)
+
+        kwargs["encoder"] = kwargs.get("encoder") or _encoder
+
+        super().json(*args, **kwargs)

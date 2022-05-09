@@ -1,11 +1,11 @@
 import unittest
-from unittest import TestCase
 from datetime import datetime
+from unittest import TestCase
 
-from page_sku import SKU, Price, Attribute, Measurement, Rating, Metadata
+from page_sku import SKU, Attribute, Measurement, Metadata, Price, Rating
 
 
-class TestSKU(TestCase):
+class TestCreateSKU(TestCase):
     def test_create_sku_from_objects(self) -> None:
         SKU(
             code="3616585721",
