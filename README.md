@@ -11,6 +11,19 @@ Responsável pelo modelo base de um produto scrapeado.
     * Identificador do produto, ou seja, aquela familia de skus.
 * code
     * Código usado pelo marketplace para representar aquele sku.
+        * Cuidado:
+            * Este código pode estar na URL.
+            * Este código pode estar pelo HTML da página.
+            * O código da URL pode não ser o código do SKU.
+            * O código da URL pode representar um grupo de SKUs.
+        * Exemplos:
+            * Amazon usa o código do sku deles na URL.  
+                * https://www.amazon.com.br/dp/B072C67WDN
+                    * Código: B072C67WDN
+            * Rihappy deixa o código do sku deles no HTML.
+                * https://www.rihappy.com.br/dino-papa-tudo-elka/p
+                    * Código: 100127502
+    * Caso não encontre, utilizar o código na URL.
 * name
     * Nome do sku.
 * brand
