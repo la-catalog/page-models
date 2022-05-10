@@ -1,6 +1,6 @@
 from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
-from pydantic import AnyUrl, BaseModel, conlist, constr, validator
+from pydantic import AnyHttpUrl, BaseModel, conlist, constr, validator
 
 from page_sku.attribute import Attribute
 from page_sku.measurement import Measurement
@@ -23,12 +23,12 @@ class SKU(BaseModel):
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
     rating: Rating = Rating()
-    audios: list[AnyUrl] = []
-    images: list[AnyUrl] = []
-    videos: list[AnyUrl] = []
-    variations: list[AnyUrl] = []
-    sources: conlist(AnyUrl, min_items=1)
-    links: list[AnyUrl] = []
+    audios: list[AnyHttpUrl] = []
+    images: list[AnyHttpUrl] = []
+    videos: list[AnyHttpUrl] = []
+    variations: list[AnyHttpUrl] = []
+    sources: conlist(AnyHttpUrl, min_items=1)
+    links: list[AnyHttpUrl] = []
     marketplace: constr(min_length=1, strip_whitespace=True)
     metadata: Metadata = Metadata()
 
