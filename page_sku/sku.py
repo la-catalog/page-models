@@ -23,12 +23,12 @@ class SKU(BaseModel):
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
     rating: Rating = Rating()
-    audios: set[AnyHttpUrl] = []
-    images: set[AnyHttpUrl] = []
-    videos: set[AnyHttpUrl] = []
-    variations: set[AnyHttpUrl] = []
+    audios: set[AnyHttpUrl] = set()
+    images: set[AnyHttpUrl] = set()
+    videos: set[AnyHttpUrl] = set()
+    variations: set[AnyHttpUrl] = set()
     sources: conlist(AnyHttpUrl, min_items=1)
-    links: set[AnyHttpUrl] = []
+    links: set[AnyHttpUrl] = set()
     marketplace: constr(min_length=1, strip_whitespace=True)
     metadata: Metadata = Metadata()
 
