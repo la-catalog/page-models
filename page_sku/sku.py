@@ -23,12 +23,12 @@ class SKU(BaseModel):
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
     rating: Rating = Rating()
-    audios: list[AnyHttpUrl] = []
-    images: list[AnyHttpUrl] = []
-    videos: list[AnyHttpUrl] = []
-    variations: list[AnyHttpUrl] = []
+    audios: set[AnyHttpUrl] = []
+    images: set[AnyHttpUrl] = []
+    videos: set[AnyHttpUrl] = []
+    variations: set[AnyHttpUrl] = []
     sources: conlist(AnyHttpUrl, min_items=1)
-    links: list[AnyHttpUrl] = []
+    links: set[AnyHttpUrl] = []
     marketplace: constr(min_length=1, strip_whitespace=True)
     metadata: Metadata = Metadata()
 
@@ -37,6 +37,7 @@ class SKU(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {
             ObjectId: lambda v: str(v),
+            set: lambda v: list(v),
         }
 
     @validator("gtin")
