@@ -53,7 +53,6 @@ class TestCreateSKU(TestCase):
             ],
             sources=["https://www.americanas.com.br/produto/3616585721"],
             marketplace="americanas",
-            metadata=Metadata(created=datetime.utcnow()),
         )
 
     def test_create_sku_from_dict(self) -> None:
@@ -108,9 +107,6 @@ class TestCreateSKU(TestCase):
                 ],
                 "sources": ["https://www.americanas.com.br/produto/3616585721"],
                 "marketplace": "americanas",
-                "metadata": {
-                    "created": datetime.utcnow(),
-                },
             }
         )
 
@@ -165,9 +161,6 @@ class TestCreateSKU(TestCase):
             ],
             sources=["https://www.americanas.com.br/produto/3616585721"],
             marketplace="americanas",
-            metadata={
-                "created": datetime.utcnow(),
-            },
         )
 
 
