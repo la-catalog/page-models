@@ -29,9 +29,9 @@ class TestConvertToJson(TestCase):
                 Attribute(name="Tipo de Tela", value="POLED"),
             ],
             measurement=Measurement(
+                length=0.7,
                 width=7.6,
                 height=16.3,
-                length=0.7,
                 unit="cm",
                 weight=163,
                 weight_unit="g",
@@ -79,8 +79,8 @@ class TestConvertToJson(TestCase):
                     {"name": "Tipo de Tela", "value": "POLED"},
                 ],
                 "measurement": {
-                    "width": 7.6,
                     "height": 16.3,
+                    "width": 7.6,
                     "length": 0.7,
                     "unit": "cm",
                     "weight": 163,
@@ -133,9 +133,9 @@ class TestConvertToJson(TestCase):
                 {"name": "Tipo de Tela", "value": "POLED"},
             ],
             measurement={
+                "length": 0.7,
                 "width": 7.6,
                 "height": 16.3,
-                "length": 0.7,
                 "unit": "cm",
                 "weight": 163,
                 "weight_unit": "g",

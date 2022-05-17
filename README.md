@@ -80,3 +80,7 @@ Responsável pelo modelo base de um produto scrapeado.
     * Nome do marketplace seguindo o padrão [snake_case](https://en.wikipedia.org/wiki/Snake_case).
 * metadata
     * [Dados que providência informações sobre os dados do sku](https://en.wikipedia.org/wiki/Metadata).
+
+# reference
+
+["A norma diz que as medidas devem ser colocadas na ordem: comprimento x largura x altura (ou profundidade)."](https://www.diferenca.com/comprimento-largura-e-altura/#:~:text=A%20norma%20diz%20que%20as,x%20altura%20(ou%20profundidade).)
