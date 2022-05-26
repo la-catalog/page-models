@@ -1,8 +1,7 @@
 import unittest
-from datetime import datetime
 from unittest import TestCase
 
-from page_sku import SKU, Attribute, Measurement, Metadata, Price, Rating
+from page_sku import SKU, Attribute, Measurement, Price, Rating
 
 
 class TestConvertToJson(TestCase):
