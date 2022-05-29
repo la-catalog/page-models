@@ -2,7 +2,7 @@
 Responsável pelo modelo base de um produto scrapeado.  
 
 # install
-`pip install git+https://github.com/thiagola92/page-sku.git`  
+`pip install git+https://github.com/la-catalog/page-sku.git`  
 
 # model
 * _id
