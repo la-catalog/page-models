@@ -17,6 +17,7 @@ class SKU(BaseModel):
     brand: constr(min_length=1, strip_whitespace=True) | None = None
     description: constr(min_length=1, strip_whitespace=True) | None = None
     gtin: constr(min_length=8, strip_whitespace=True) | None = None
+    ncm: constr(min_length=8, strip_whitespace=True) | None = None
     prices: list[Price] = []
     segments: list[constr(min_length=1, strip_whitespace=True)] = []
     attributes: list[Attribute] = []
