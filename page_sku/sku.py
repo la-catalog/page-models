@@ -47,3 +47,39 @@ class SKU(BaseModel):
             assert has_valid_check_digit(value), "Invalid check digit"
             assert int(get_gcp(value)), "Invalid GCP"
         return value
+
+    @validator("audios", each_item=True)
+    def audios_valid(value: str) -> str:
+        if isinstance(value, AnyHttpUrl):
+            return str(value)
+        return value
+
+    @validator("images", each_item=True)
+    def images_valid(value: str) -> str:
+        if isinstance(value, AnyHttpUrl):
+            return str(value)
+        return value
+
+    @validator("videos", each_item=True)
+    def videos_valid(value: str) -> str:
+        if isinstance(value, AnyHttpUrl):
+            return str(value)
+        return value
+
+    @validator("variations", each_item=True)
+    def variations_valid(value: str) -> str:
+        if isinstance(value, AnyHttpUrl):
+            return str(value)
+        return value
+
+    @validator("sources", each_item=True)
+    def sources_valid(value: str) -> str:
+        if isinstance(value, AnyHttpUrl):
+            return str(value)
+        return value
+
+    @validator("links", each_item=True)
+    def links_valid(value: str) -> str:
+        if isinstance(value, AnyHttpUrl):
+            return str(value)
+        return value

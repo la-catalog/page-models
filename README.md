@@ -32,6 +32,8 @@ Responsável pelo modelo base de um produto scrapeado.
     * Descrição do sku.
 * gtin
     * GTIN do sku.
+* ncm
+    * NCM do sku.
 * prices
     * Preços do sku, ou seja, pode possuir preço com e sem desconto.
 * segments
