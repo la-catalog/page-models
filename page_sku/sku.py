@@ -10,7 +10,7 @@ from page_sku.rating import Rating
 
 
 class SKU(BaseModel):
-    _id: ObjectId = ObjectId()
+    id: ObjectId = ObjectId()
     product: ObjectId = ObjectId()
     code: constr(min_length=1, strip_whitespace=True)
     name: constr(min_length=1, strip_whitespace=True)
@@ -33,9 +33,9 @@ class SKU(BaseModel):
     marketplace: constr(min_length=1, strip_whitespace=True)
     metadata: Metadata = Metadata()
 
-    # To allow ObjectId type
     class Config:
-        arbitrary_types_allowed = True
+        fields = {"id": "_id"}  # Use alias with MongoDB
+        arbitrary_types_allowed = True  # To allow ObjectId type
         json_encoders = {
             ObjectId: lambda v: str(v),
             set: lambda v: list(v),
