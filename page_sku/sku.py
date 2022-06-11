@@ -1,3 +1,5 @@
+from typing import Any
+
 from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
 from pydantic import AnyHttpUrl, BaseModel, conlist, constr, validator
@@ -41,13 +43,20 @@ class SKU(BaseModel):
             set: lambda v: list(v),
         }
 
+    def object_id_valid(value: Any) -> Any:
+        if isinstance(value, str):
+            return ObjectId(value)
+        return value
+
     @validator("gtin")
-    def gtin_valid(value: str | None) -> str | None:
+    def gtin_valid(value: str) -> str:
         if isinstance(value, str):
             assert has_valid_check_digit(value), "Invalid check digit"
             assert int(get_gcp(value)), "Invalid GCP"
         return value
 
+    _id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
+    _product = validator("product", pre=True, allow_reuse=True)(object_id_valid)
     _audios = validator("audios", each_item=True, allow_reuse=True)(lambda u: str(u))
     _images = validator("images", each_item=True, allow_reuse=True)(lambda u: str(u))
     _videos = validator("videos", each_item=True, allow_reuse=True)(lambda u: str(u))
