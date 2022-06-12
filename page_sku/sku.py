@@ -2,7 +2,7 @@ from typing import Any
 
 from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
-from pydantic import AnyHttpUrl, BaseModel, conlist, constr, validator
+from pydantic import AnyHttpUrl, BaseModel, Field, conlist, constr, validator
 
 from page_sku.attribute import Attribute
 from page_sku.measurement import Measurement
@@ -55,7 +55,7 @@ class SKU(BaseModel):
             assert int(get_gcp(value)), "Invalid GCP"
         return value
 
-    _id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
+    _sku_id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
     _product = validator("product", pre=True, allow_reuse=True)(object_id_valid)
     _audios = validator("audios", each_item=True, allow_reuse=True)(lambda u: str(u))
     _images = validator("images", each_item=True, allow_reuse=True)(lambda u: str(u))
