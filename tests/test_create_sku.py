@@ -12,7 +12,7 @@ class TestCreateSKU(TestCase):
             brand="MOTOROLA",
             description="O mais avançado e potente",
             gtin="7892597351206",
-            prices=[Price(amount=2699, currency="R$")],
+            prices=[Price(value=2699, currency="R$")],
             segments=[
                 "celulares e smartphones",
                 "smartphone",
@@ -62,7 +62,7 @@ class TestCreateSKU(TestCase):
                 "brand": "MOTOROLA",
                 "description": "O mais avançado e potente",
                 "gtin": "7892597351206",
-                "prices": [{"amount": 2699, "currency": "R$"}],
+                "prices": [{"value": 2699, "currency": "R$"}],
                 "segments": [
                     "celulares e smartphones",
                     "smartphone",
@@ -116,7 +116,7 @@ class TestCreateSKU(TestCase):
             brand="MOTOROLA",
             description="O mais avançado e potente",
             gtin="7892597351206",
-            prices=[{"amount": 2699, "currency": "R$"}],
+            prices=[{"value": 2699, "currency": "R$"}],
             segments=[
                 "celulares e smartphones",
                 "smartphone",
