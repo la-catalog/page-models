@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from bson import ObjectId
 
-from page_sku import SKU
+from page_models import SKU
 
 
 class TestID(TestCase):

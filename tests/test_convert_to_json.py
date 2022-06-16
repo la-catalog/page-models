@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from page_sku import SKU, Attribute, Measurement, Price, Rating
+from page_models import SKU, Attribute, Measurement, Price, Rating
 
 
 class TestConvertToJson(TestCase):
