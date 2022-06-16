@@ -2,7 +2,7 @@ from typing import Any
 
 from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
-from pydantic import AnyHttpUrl, BaseModel, Field, conlist, constr, validator
+from pydantic import AnyHttpUrl, BaseModel, conlist, constr, validator
 
 from page_models.sku.attribute import Attribute
 from page_models.sku.measurement import Measurement
