@@ -1,10 +1,10 @@
-# page-sku
-Responsável pelo modelo base de um produto scrapeado.  
+# page-models
+Responsável por diversos modelos usados pelos scrapers.  
 
 # install
-`pip install git+https://github.com/la-catalog/page-sku.git`  
+`pip install git+https://github.com/la-catalog/page-models.git`  
 
-# model
+# SKU
 * _id
     * Identificador único do SKU.
 * product

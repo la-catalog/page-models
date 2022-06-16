@@ -4,11 +4,11 @@ from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
 from pydantic import AnyHttpUrl, BaseModel, Field, conlist, constr, validator
 
-from page_sku.attribute import Attribute
-from page_sku.measurement import Measurement
-from page_sku.metadata import Metadata
-from page_sku.price import Price
-from page_sku.rating import Rating
+from page_models.sku.attribute import Attribute
+from page_models.sku.measurement import Measurement
+from page_models.sku.metadata import Metadata
+from page_models.sku.price import Price
+from page_models.sku.rating import Rating
 
 
 class SKU(BaseModel):
