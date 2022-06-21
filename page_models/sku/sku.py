@@ -13,7 +13,7 @@ from page_models.sku.rating import Rating
 
 class SKU(BaseModel):
     id: ObjectId = ObjectId()
-    product: ObjectId = ObjectId()
+    product: constr(min_length=1, strip_whitespace=True) = str(ObjectId())
     code: constr(min_length=1, strip_whitespace=True)
     name: constr(min_length=1, strip_whitespace=True)
     brand: constr(min_length=1, strip_whitespace=True) | None = None
@@ -56,7 +56,6 @@ class SKU(BaseModel):
         return value
 
     _sku_id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
-    _product = validator("product", pre=True, allow_reuse=True)(object_id_valid)
     _audios = validator("audios", each_item=True, allow_reuse=True)(lambda u: str(u))
     _images = validator("images", each_item=True, allow_reuse=True)(lambda u: str(u))
     _videos = validator("videos", each_item=True, allow_reuse=True)(lambda u: str(u))

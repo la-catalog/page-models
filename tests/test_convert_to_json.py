@@ -1,12 +1,16 @@
 import unittest
 from unittest import TestCase
 
+from bson.objectid import ObjectId
+
 from page_models import SKU, Attribute, Measurement, Price, Rating
 
 
 class TestConvertToJson(TestCase):
     def test_create_sku_from_objects(self) -> None:
         SKU(
+            id=ObjectId("62b1891c1c248bcedf2d08b8"),
+            product="62b189331c248bcedf2d08b9",
             code="3616585721",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
             brand="MOTOROLA",
@@ -57,6 +61,8 @@ class TestConvertToJson(TestCase):
     def test_create_sku_from_dict(self) -> None:
         SKU(
             **{
+                "id": ObjectId("62b1891c1c248bcedf2d08b8"),
+                "product": "62b189331c248bcedf2d08b9",
                 "code": "3616585721",
                 "name": "Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
                 "brand": "MOTOROLA",
@@ -111,6 +117,8 @@ class TestConvertToJson(TestCase):
 
     def test_create_sku_from_hybrid(self) -> None:
         SKU(
+            id=ObjectId("62b1891c1c248bcedf2d08b8"),
+            product="62b189331c248bcedf2d08b9",
             code="3616585721",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
             brand="MOTOROLA",
