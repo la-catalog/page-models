@@ -2,7 +2,7 @@
 Responsável por diversos modelos usados pelos scrapers.  
 
 # install
-`pip install git+https://github.com/la-catalog/page-models.git#egg=page-models`  
+`pip install -e git+https://github.com/la-catalog/page-models.git#egg=page-models`  
 
 # SKU
 * _id
