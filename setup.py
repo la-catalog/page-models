@@ -22,7 +22,7 @@ setup(
     license="MIT",
     packages=find_packages(exclude=["tests"]),
     install_requires=[
-        "bson>=0.5.10",
+        "motor>=3.0.0",
         "gtin>=1.3.1631641032",
         "pydantic>=1.9.0",
     ],
