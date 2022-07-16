@@ -9,6 +9,7 @@ from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
+from page_models.sku.snapshot import Snapshot
 
 
 class SKU(BaseModel):
@@ -34,6 +35,7 @@ class SKU(BaseModel):
     links: list[AnyHttpUrl] = []
     marketplace: constr(min_length=1, strip_whitespace=True)
     metadata: Metadata = Metadata()
+    snapshots: list[Snapshot] = []
 
     class Config:
         fields = {"id": "_id"}  # Use alias with MongoDB
