@@ -14,8 +14,8 @@ from page_models.sku.snapshot import Snapshot
 
 class SKU(BaseModel):
     id: ObjectId = ObjectId()
-    product: constr(min_length=1, strip_whitespace=True) = str(ObjectId())
     code: constr(min_length=1, strip_whitespace=True)
+    product: constr(min_length=1, strip_whitespace=True) | None = None
     name: constr(min_length=1, strip_whitespace=True)
     brand: constr(min_length=1, strip_whitespace=True) | None = None
     description: constr(min_length=1, strip_whitespace=True) | None = None

@@ -2,13 +2,11 @@
 Responsável por diversos modelos usados pelos scrapers.  
 
 # install
-`pip install -e git+https://github.com/la-catalog/page-models.git#egg=page-models`  
+`pdm add git+https://github.com/la-catalog/page-models.git#egg=page-models`  
 
 # SKU
 * _id
     * Identificador único do SKU.
-* product
-    * Identificador do produto, ou seja, aquela familia de SKUs.
 * code
     * Código usado pelo marketplace para representar aquele SKU.
         * Cuidado:
@@ -23,7 +21,8 @@ Responsável por diversos modelos usados pelos scrapers.
             * Rihappy deixa o código do SKU deles no HTML.
                 * https://www.rihappy.com.br/dino-papa-tudo-elka/p
                     * Código: 100127502
-    * Caso não encontre, utilizar o código na URL.
+* product
+    * Código usado pelo marketplace para representar aquela familia de SKUs.
 * name
     * Nome do SKU.
 * brand
