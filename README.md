@@ -83,5 +83,4 @@ Responsável por diversos modelos usados pelos scrapers.
     * [Dados que providência informações sobre os dados do SKU](https://en.wikipedia.org/wiki/Metadata).
 
 # reference
-
 ["A norma diz que as medidas devem ser colocadas na ordem: comprimento x largura x altura (ou profundidade)."](https://www.diferenca.com/comprimento-largura-e-altura/#:~:text=A%20norma%20diz%20que%20as,x%20altura%20(ou%20profundidade).)
