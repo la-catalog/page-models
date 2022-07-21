@@ -9,14 +9,14 @@ from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
-from page_models.sku.snapshot import Snapshot
 
 
 class SKU(BaseModel):
     """
     id - Unique identifier for the document (ObjectId)
-
     code - SKU code inside the marketplace
+    marketplace - Marketplace name using snake_case style
+
     product - Product code inside the marketplace
     name - Name (never empty)
     brand - Brand
@@ -33,19 +33,19 @@ class SKU(BaseModel):
     images - Images relative to SKU
     videos - Videos relative to SKU
     variations - URL to any variation
-    marketplace - Marketplace name using snake_case style
 
-    links - Links to others SKUs (no related to this)
     metadata - Data that provides information about the SKU data
-    snapshots - Historic of changes to the SKU fields
-    relatives - ObjectIds from SKUs related to this SKU
+    links - Links to others SKUs (no related to this)
     """
 
+    # Stable fields
+    # Don't ever change
     id: ObjectId = ObjectId()
-
-    # SKU core fields
-    # Any change to this fields, would mean that the SKU have been updated
     code: constr(min_length=1, strip_whitespace=True)
+    marketplace: constr(min_length=1, strip_whitespace=True, to_lower=True)
+
+    # Core fields
+    # Any change to this fields, would mean that the SKU have been updated
     product: constr(min_length=1, strip_whitespace=True) | None = None
     name: constr(min_length=1, strip_whitespace=True)
     brand: constr(min_length=1, strip_whitespace=True) | None = None
@@ -62,15 +62,11 @@ class SKU(BaseModel):
     images: list[AnyHttpUrl] = []
     videos: list[AnyHttpUrl] = []
     variations: list[AnyHttpUrl] = []
-    marketplace: constr(min_length=1, strip_whitespace=True, to_lower=True)
 
-    # SKU organization fields
+    # Organization fields
     # Fields used by organization to optimize pipeline or catalog
-    links: list[AnyHttpUrl] = []
     metadata: Metadata
-    snapshots: list[Snapshot] = []
-    relatives: dict[str, bool] = {}
-    grade: conint(ge=0) = 0
+    links: list[AnyHttpUrl] = []
 
     class Config:
         fields = {"id": "_id"}  # Use alias with MongoDB
