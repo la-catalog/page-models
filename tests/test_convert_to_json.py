@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from bson.objectid import ObjectId
 
-from page_models import SKU, Attribute, Measurement, Price, Rating
+from page_models import SKU, Attribute, Measurement, Metadata, Price, Rating
 
 
 class TestConvertToJson(TestCase):
@@ -54,7 +54,9 @@ class TestConvertToJson(TestCase):
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
             ],
-            sources=["https://www.americanas.com.br/produto/3616585721"],
+            metadata=Metadata(
+                sources=["https://www.americanas.com.br/produto/3616585721"]
+            ),
             marketplace="americanas",
         ).json()
 
@@ -110,7 +112,9 @@ class TestConvertToJson(TestCase):
                     "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                     "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
                 ],
-                "sources": ["https://www.americanas.com.br/produto/3616585721"],
+                "metadata": {
+                    "sources": ["https://www.americanas.com.br/produto/3616585721"]
+                },
                 "marketplace": "americanas",
             }
         ).json()
@@ -166,7 +170,7 @@ class TestConvertToJson(TestCase):
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
             ],
-            sources=["https://www.americanas.com.br/produto/3616585721"],
+            metadata={"sources": ["https://www.americanas.com.br/produto/3616585721"]},
             marketplace="americanas",
         ).json()
 

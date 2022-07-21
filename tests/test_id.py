@@ -14,7 +14,7 @@ class TestID(TestCase):
             name="foobar",
             code="123456",
             marketplace="test",
-            sources=["https://www.thiagola92.com"],
+            metadata={"sources": ["https://www.thiagola92.com"]},
         )
 
         assert self.sku.id == self.objectid
