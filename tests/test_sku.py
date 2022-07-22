@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 from unittest import TestCase
 
 from bson.objectid import ObjectId
@@ -6,12 +7,12 @@ from bson.objectid import ObjectId
 from page_models import SKU, Attribute, Measurement, Metadata, Price, Rating
 
 
-class TestConvertToJson(TestCase):
-    def test_create_sku_from_objects(self) -> None:
-        SKU(
+class TestSKU(TestCase):
+    def test_sku_from_objects(self) -> None:
+        sku = SKU(
             id=ObjectId("62b1891c1c248bcedf2d08b8"),
-            marketplace="americanas",
             code="3616585721",
+            marketplace="americanas",
             product="62b189331c248bcedf2d08b9",
             name="Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
             brand="MOTOROLA",
@@ -33,9 +34,9 @@ class TestConvertToJson(TestCase):
                 Attribute(name="Tipo de Tela", value="POLED"),
             ],
             measurement=Measurement(
-                length=0.7,
                 width=7.6,
                 height=16.3,
+                length=0.7,
                 unit="cm",
                 weight=163,
                 weight_unit="g",
@@ -56,16 +57,20 @@ class TestConvertToJson(TestCase):
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
             ],
             metadata=Metadata(
-                sources=["https://www.americanas.com.br/produto/3616585721"]
+                created=datetime.utcnow(),
+                sources=["https://www.americanas.com.br/produto/3616585721"],
             ),
-        ).json()
+        )
 
-    def test_create_sku_from_dict(self) -> None:
-        SKU(
+        # check if transforming to json still working
+        assert sku.json()
+
+    def test_sku_from_dict(self) -> None:
+        sku = SKU(
             **{
                 "id": ObjectId("62b1891c1c248bcedf2d08b8"),
-                "marketplace": "americanas",
                 "code": "3616585721",
+                "marketplace": "americanas",
                 "product": "62b189331c248bcedf2d08b9",
                 "name": "Smartphone Motorola Edge 20 128GB 5G Wi-Fi Tela 6,7'' Dual Chip 8GB RAM Câmera Tripla + Selfie 32MP - Branco",
                 "brand": "MOTOROLA",
@@ -87,8 +92,8 @@ class TestConvertToJson(TestCase):
                     {"name": "Tipo de Tela", "value": "POLED"},
                 ],
                 "measurement": {
-                    "height": 16.3,
                     "width": 7.6,
+                    "height": 16.3,
                     "length": 0.7,
                     "unit": "cm",
                     "weight": 163,
@@ -114,13 +119,17 @@ class TestConvertToJson(TestCase):
                     "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
                 ],
                 "metadata": {
-                    "sources": ["https://www.americanas.com.br/produto/3616585721"]
+                    "created": datetime.utcnow(),
+                    "sources": ["https://www.americanas.com.br/produto/3616585721"],
                 },
             }
-        ).json()
+        )
 
-    def test_create_sku_from_hybrid(self) -> None:
-        SKU(
+        # check if transforming to json still working
+        assert sku.json()
+
+    def test_sku_from_hybrid(self) -> None:
+        sku = SKU(
             id=ObjectId("62b1891c1c248bcedf2d08b8"),
             code="3616585721",
             marketplace="americanas",
@@ -145,9 +154,9 @@ class TestConvertToJson(TestCase):
                 {"name": "Tipo de Tela", "value": "POLED"},
             ],
             measurement={
-                "length": 0.7,
                 "width": 7.6,
                 "height": 16.3,
+                "length": 0.7,
                 "unit": "cm",
                 "weight": 163,
                 "weight_unit": "g",
@@ -171,8 +180,14 @@ class TestConvertToJson(TestCase):
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
                 "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
             ],
-            metadata={"sources": ["https://www.americanas.com.br/produto/3616585721"]},
-        ).json()
+            metadata={
+                "created": datetime.utcnow(),
+                "sources": ["https://www.americanas.com.br/produto/3616585721"],
+            },
+        )
+
+        # check if transforming to json still working
+        assert sku.json()
 
 
 if __name__ == "__main__":

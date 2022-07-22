@@ -1,14 +1,17 @@
+from datetime import datetime
+from hashlib import sha3_512
 from typing import Any
 
 from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
-from pydantic import AnyHttpUrl, BaseModel, conint, constr, validator
+from pydantic import AnyHttpUrl, BaseModel, constr, validator
 
 from page_models.sku.attribute import Attribute
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
+from page_models.sku.snapshot import Snapshot
 
 
 class SKU(BaseModel):
@@ -35,17 +38,15 @@ class SKU(BaseModel):
     variations - URL to any variation
 
     metadata - Data that provides information about the SKU data
-    links - Links to others SKUs (no related to this)
     """
 
-    # Stable fields
-    # Don't ever change
+    # Identifier field
     id: ObjectId = ObjectId()
-    code: constr(min_length=1, strip_whitespace=True)
-    marketplace: constr(min_length=1, strip_whitespace=True, to_lower=True)
 
     # Core fields
     # Any change to this fields, would mean that the SKU have been updated
+    code: constr(min_length=1, strip_whitespace=True)
+    marketplace: constr(min_length=1, strip_whitespace=True, to_lower=True)
     product: constr(min_length=1, strip_whitespace=True) | None = None
     name: constr(min_length=1, strip_whitespace=True)
     brand: constr(min_length=1, strip_whitespace=True) | None = None
@@ -64,9 +65,8 @@ class SKU(BaseModel):
     variations: list[AnyHttpUrl] = []
 
     # Organization fields
-    # Fields used by organization to optimize pipeline or catalog
+    # Field used by organization to optimize pipeline or catalog
     metadata: Metadata
-    links: list[AnyHttpUrl] = []
 
     class Config:
         fields = {"id": "_id"}  # Use alias with MongoDB
@@ -96,4 +96,19 @@ class SKU(BaseModel):
         lambda u: str(u)
     )
 
-    _links = validator("links", each_item=True, allow_reuse=True)(lambda u: str(u))
+    def get_core(self, *args, **kwargs) -> dict:
+        sku = self.dict(*args, **kwargs)
+        sku.pop("id", None)
+        sku.pop("_id", None)
+        sku.pop("metadata", None)
+
+        return sku
+
+    def create_snapshot(self, *args, **kwargs):
+        sku = self.get_core(*args, **kwargs)
+        data = str(sku).encode("UTF8")
+        hash = sha3_512(data).hexdigest()
+
+        self.metadata.snapshots.insert(
+            0, Snapshot(hash=hash, created=datetime.utcnow())
+        )

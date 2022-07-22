@@ -15,12 +15,13 @@ class Metadata(BaseModel):
     query - The query which the SKU came from
     origin - Who triggered the pipeline
     grade - Number representing the quality of the SKU
-    snapshots - Historic of changes to the SKU fields
+    snapshots - Historic of changes to the SKU fields (new to old)
     relatives - ObjectIds from SKUs related to the SKU
+    links - Links to others SKUs (no related to this)
     """
 
-    # Date fields
-    created: datetime = datetime.utcnow()
+    # Datetime fields (UTC time)
+    created: datetime
     updated: datetime | None = None
     deleted: datetime | None = None
 
@@ -30,5 +31,7 @@ class Metadata(BaseModel):
     grade: conint(ge=0) = 0
     snapshots: list[Snapshot] = []
     relatives: dict[str, bool] = {}
+    links: list[AnyHttpUrl] = []
 
     _sources = validator("sources", each_item=True, allow_reuse=True)(lambda u: str(u))
+    _links = validator("links", each_item=True, allow_reuse=True)(lambda u: str(u))

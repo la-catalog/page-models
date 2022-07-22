@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime
 from unittest import TestCase
 
 from bson import ObjectId
@@ -14,7 +15,10 @@ class TestID(TestCase):
             name="foobar",
             code="123456",
             marketplace="test",
-            metadata={"sources": ["https://www.thiagola92.com"]},
+            metadata={
+                "created": datetime.utcnow(),
+                "sources": ["https://www.thiagola92.com"],
+            },
         )
 
         assert self.sku.id == self.objectid
