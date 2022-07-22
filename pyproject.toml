@@ -13,7 +13,7 @@ requires-python = ">=3.10"
 readme = "README.md"
 
 [project.urls]
-repository = "https://github.com/lacatalog/page-models"
+repository = "https://github.com/la-catalog/page-models"
 
 [tool.pdm]
 
