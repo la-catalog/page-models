@@ -1,7 +1,6 @@
 [project]
 name = "page-models"
 version = "0.1.0"
-description = "Sku model"
 authors = [
     {name = "thiagola92", email = "thiagola92@gmail.com"},
 ]
