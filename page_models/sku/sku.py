@@ -76,16 +76,16 @@ class SKU(BaseModel):
             set: lambda v: list(v),
         }
 
-    def object_id_valid(value: Any) -> Any:
-        if isinstance(value, str):
-            return ObjectId(value)
-        return value
-
     @validator("gtin")
     def gtin_valid(value: str) -> str:
         if isinstance(value, str):
             assert has_valid_check_digit(value), "Invalid check digit"
             assert int(get_gcp(value)), "Invalid GCP"
+        return value
+
+    def object_id_valid(value: Any) -> Any:
+        if isinstance(value, str):
+            return ObjectId(value)
         return value
 
     _sku_id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
@@ -97,6 +97,13 @@ class SKU(BaseModel):
     )
 
     def get_core(self, *args, **kwargs) -> dict:
+        """
+        Get only the core fields.
+
+        Core fields are used to create snapshots which
+        tell us how the SKU was in that point in time.
+        """
+
         sku = self.dict(*args, **kwargs)
         sku.pop("id", None)
         sku.pop("_id", None)
@@ -105,6 +112,8 @@ class SKU(BaseModel):
         return sku
 
     def create_snapshot(self, *args, **kwargs):
+        """Create a snapshot and add it to the list."""
+
         sku = self.get_core(*args, **kwargs)
         data = str(sku).encode("UTF8")
         hash = sha3_512(data).hexdigest()

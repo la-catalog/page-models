@@ -15,14 +15,14 @@ class Metadata(BaseModel):
     query - The query which the SKU came from
     origin - Who triggered the pipeline
     grade - Number representing the quality of the SKU
-    snapshots - Historic of changes to the SKU fields (new to old)
+    snapshots - Snapshots from newer to oldest
     relatives - Code from SKUs related to the SKU
     links - Links to others SKUs (no related to this)
     """
 
     # Datetime fields (UTC time)
     created: datetime
-    updated: datetime | None = None
+    updated: datetime
     deleted: datetime | None = None
 
     sources: conlist(AnyHttpUrl, min_items=1)
