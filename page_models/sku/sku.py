@@ -121,3 +121,24 @@ class SKU(BaseModel):
         self.metadata.snapshots.insert(
             0, Snapshot(hash=hash, created=datetime.utcnow())
         )
+
+    def get_upsert(self, *args, **kwargs) -> dict:
+        sku = self.dict(*args, **kwargs)
+        created = sku["metadata"].pop("created")
+        snapshots = sku["metadata"].pop("snapshots")
+
+        sku.pop("id", None)
+        sku.pop("_id", None)
+
+        return {
+            "$set": sku,
+            "$setOnInsert": {
+                "metadata.created": created,
+            },
+            "$push": {
+                "metadata.snapshots": {
+                    "$each": snapshots,
+                    "$position": 0,
+                }
+            },
+        }
