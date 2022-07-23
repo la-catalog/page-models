@@ -76,16 +76,16 @@ class SKU(BaseModel):
             set: lambda v: list(v),
         }
 
+    def object_id_valid(value: Any) -> Any:
+        if isinstance(value, str):
+            return ObjectId(value)
+        return value
+
     @validator("gtin")
     def gtin_valid(value: str) -> str:
         if isinstance(value, str):
             assert has_valid_check_digit(value), "Invalid check digit"
             assert int(get_gcp(value)), "Invalid GCP"
-        return value
-
-    def object_id_valid(value: Any) -> Any:
-        if isinstance(value, str):
-            return ObjectId(value)
         return value
 
     _sku_id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
