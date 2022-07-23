@@ -122,7 +122,7 @@ class SKU(BaseModel):
             0, Snapshot(hash=hash, created=datetime.utcnow())
         )
 
-    def get_upsert(self, *args, **kwargs) -> dict:
+    def get_mongo_upsert(self, *args, **kwargs) -> dict:
         sku = self.dict(*args, **kwargs)
         created = sku["metadata"].pop("created")
         snapshots = sku["metadata"].pop("snapshots")
