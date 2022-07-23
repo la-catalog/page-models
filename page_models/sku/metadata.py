@@ -16,7 +16,7 @@ class Metadata(BaseModel):
     origin - Who triggered the pipeline
     grade - Number representing the quality of the SKU
     snapshots - Historic of changes to the SKU fields (new to old)
-    relatives - ObjectIds from SKUs related to the SKU
+    relatives - Code from SKUs related to the SKU
     links - Links to others SKUs (no related to this)
     """
 

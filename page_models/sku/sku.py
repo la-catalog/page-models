@@ -17,9 +17,9 @@ from page_models.sku.snapshot import Snapshot
 class SKU(BaseModel):
     """
     id - Unique identifier for the document (ObjectId)
+
     code - SKU code inside the marketplace
     marketplace - Marketplace name using snake_case style
-
     product - Product code inside the marketplace
     name - Name (never empty)
     brand - Brand
@@ -41,7 +41,7 @@ class SKU(BaseModel):
     """
 
     # Identifier field
-    id: ObjectId = ObjectId()
+    id: ObjectId
 
     # Core fields
     # Any change to this fields, would mean that the SKU have been updated
