@@ -113,24 +113,3 @@ class SKU(BaseModel):
         self.metadata.fill(hash=self.get_hash())
 
         return self
-
-    # def get_mongo_upsert(self, *args, **kwargs) -> dict:
-    #     sku = self.dict(*args, **kwargs)
-    #     created = sku["metadata"].pop("created")
-    #     snapshots = sku["metadata"].pop("snapshots")
-
-    #     sku.pop("id", None)
-    #     sku.pop("_id", None)
-
-    #     return {
-    #         "$set": sku,
-    #         "$setOnInsert": {
-    #             "metadata.created": created,
-    #         },
-    #         "$push": {
-    #             "metadata.snapshots": {
-    #                 "$each": snapshots,
-    #                 "$position": 0,
-    #             }
-    #         },
-    #     }
