@@ -1,8 +1,5 @@
-from datetime import datetime
 from hashlib import sha3_512
-from typing import Any
 
-from bson.objectid import ObjectId
 from gtin import get_gcp, has_valid_check_digit
 from pydantic import AnyHttpUrl, BaseModel, constr, validator
 
@@ -11,13 +8,10 @@ from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
-from page_models.sku.snapshot import Snapshot
 
 
 class SKU(BaseModel):
     """
-    id - Unique identifier for the document (ObjectId)
-
     code - SKU code inside the marketplace
     marketplace - Marketplace name using snake_case style
     product - Product code inside the marketplace
@@ -40,19 +34,16 @@ class SKU(BaseModel):
     metadata - Data that provides information about the SKU data
     """
 
-    # Identifier field
-    id: ObjectId
-
     # Core fields
     # Any change to this fields, would mean that the SKU have been updated
     code: constr(min_length=1, strip_whitespace=True)
     marketplace: constr(min_length=1, strip_whitespace=True, to_lower=True)
-    product: constr(min_length=1, strip_whitespace=True) | None = None
+    product: constr(min_length=1, strip_whitespace=True) = None
     name: constr(min_length=1, strip_whitespace=True)
-    brand: constr(min_length=1, strip_whitespace=True) | None = None
-    description: constr(min_length=1, strip_whitespace=True) | None = None
-    gtin: constr(min_length=8, strip_whitespace=True) | None = None
-    ncm: constr(min_length=8, strip_whitespace=True) | None = None
+    brand: constr(min_length=1, strip_whitespace=True) = None
+    description: constr(min_length=1, strip_whitespace=True) = None
+    gtin: constr(min_length=8, strip_whitespace=True) = None
+    ncm: constr(min_length=8, strip_whitespace=True) = None
     prices: list[Price] = []
     segments: list[constr(min_length=1, strip_whitespace=True)] = []
     attributes: list[Attribute] = []
@@ -69,26 +60,19 @@ class SKU(BaseModel):
     metadata: Metadata
 
     class Config:
-        fields = {"id": "_id"}  # Use alias with MongoDB
-        arbitrary_types_allowed = True  # To allow ObjectId type
         json_encoders = {
-            ObjectId: lambda v: str(v),
             set: lambda v: list(v),
         }
-
-    def object_id_valid(value: Any) -> Any:
-        if isinstance(value, str):
-            return ObjectId(value)
-        return value
 
     @validator("gtin")
     def gtin_valid(value: str) -> str:
         if isinstance(value, str):
-            assert has_valid_check_digit(value), "Invalid check digit"
-            assert int(get_gcp(value)), "Invalid GCP"
+            if not has_valid_check_digit(value):
+                raise ValueError("Invalid check digit")
+            if not get_gcp(value).isnumeric():
+                raise ValueError("Invalid GCP")
         return value
 
-    _sku_id = validator("id", pre=True, allow_reuse=True)(object_id_valid)
     _audios = validator("audios", each_item=True, allow_reuse=True)(lambda u: str(u))
     _images = validator("images", each_item=True, allow_reuse=True)(lambda u: str(u))
     _videos = validator("videos", each_item=True, allow_reuse=True)(lambda u: str(u))
@@ -97,48 +81,56 @@ class SKU(BaseModel):
     )
 
     def get_core(self, *args, **kwargs) -> dict:
-        """
-        Get only the core fields.
-
-        Core fields are used to create snapshots which
-        tell us how the SKU was in that point in time.
-        """
+        """Get only the core fields."""
 
         sku = self.dict(*args, **kwargs)
-        sku.pop("id", None)
-        sku.pop("_id", None)
         sku.pop("metadata", None)
 
         return sku
 
-    def create_snapshot(self, *args, **kwargs):
-        """Create a snapshot and add it to the list."""
+    def get_hash(self, *args, **kwargs) -> str:
+        """
+        Get the core fields hash.
+
+        A hash is created from the core fields which
+        tell us how the SKU was in that point in time.
+        """
 
         sku = self.get_core(*args, **kwargs)
         data = str(sku).encode("UTF8")
         hash = sha3_512(data).hexdigest()
 
-        self.metadata.snapshots.insert(
-            0, Snapshot(hash=hash, created=datetime.utcnow())
-        )
+        return hash
 
-    def get_mongo_upsert(self, *args, **kwargs) -> dict:
-        sku = self.dict(*args, **kwargs)
-        created = sku["metadata"].pop("created")
-        snapshots = sku["metadata"].pop("snapshots")
+    def fill(self):
+        """
+        Fill missing fields.
 
-        sku.pop("id", None)
-        sku.pop("_id", None)
+        Some fields shouldn't have None as value, but they
+        can only be calculate after creating the SKU.
+        """
 
-        return {
-            "$set": sku,
-            "$setOnInsert": {
-                "metadata.created": created,
-            },
-            "$push": {
-                "metadata.snapshots": {
-                    "$each": snapshots,
-                    "$position": 0,
-                }
-            },
-        }
+        self.metadata.fill(hash=self.get_hash())
+
+        return self
+
+    # def get_mongo_upsert(self, *args, **kwargs) -> dict:
+    #     sku = self.dict(*args, **kwargs)
+    #     created = sku["metadata"].pop("created")
+    #     snapshots = sku["metadata"].pop("snapshots")
+
+    #     sku.pop("id", None)
+    #     sku.pop("_id", None)
+
+    #     return {
+    #         "$set": sku,
+    #         "$setOnInsert": {
+    #             "metadata.created": created,
+    #         },
+    #         "$push": {
+    #             "metadata.snapshots": {
+    #                 "$each": snapshots,
+    #                 "$position": 0,
+    #             }
+    #         },
+    #     }

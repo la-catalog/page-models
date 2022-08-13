@@ -1,8 +1,6 @@
 from datetime import datetime
 
-from pydantic import AnyHttpUrl, BaseModel, conint, conlist, constr, validator
-
-from page_models.sku.snapshot import Snapshot
+from pydantic import AnyHttpUrl, BaseModel, conint, conlist, validator
 
 
 class Metadata(BaseModel):
@@ -15,23 +13,32 @@ class Metadata(BaseModel):
     query - The query which the SKU came from
     origin - Who triggered the pipeline
     grade - Number representing the quality of the SKU
-    snapshots - Snapshots from newer to oldest
     relatives - Code from SKUs related to the SKU
     links - Links to others SKUs (no related to this)
+
+    hash - Hash from core fields
     """
 
     # Datetime fields (UTC time)
-    created: datetime
-    updated: datetime
-    deleted: datetime | None = None
+    created: datetime = None
+    updated: datetime = None
+    deleted: datetime = None
 
     sources: conlist(AnyHttpUrl, min_items=1)
-    query: str | None = None
-    origin: str | None = None
+    query: str = None
+    origin: str = None
     grade: conint(ge=0) = 0
-    snapshots: list[Snapshot] = []
     relatives: dict[str, bool] = {}
     links: list[AnyHttpUrl] = []
 
+    hash: str = None
+
     _sources = validator("sources", each_item=True, allow_reuse=True)(lambda u: str(u))
     _links = validator("links", each_item=True, allow_reuse=True)(lambda u: str(u))
+
+    def fill(self, hash: str):
+        """Fill missing fields."""
+
+        self.created = self.created or datetime.utcnow()
+        self.updated = self.updated or self.created
+        self.hash = hash

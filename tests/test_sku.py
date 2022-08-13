@@ -2,15 +2,18 @@ import unittest
 from datetime import datetime
 from unittest import TestCase
 
-from bson.objectid import ObjectId
-
 from page_models import SKU, Attribute, Measurement, Metadata, Price, Rating
 
 
 class TestSKU(TestCase):
     def test_sku_from_objects(self) -> None:
+        """
+        Test creating SKU using Python objects.
+
+        Advantage: Python object provide the developer with autocomplete.
+        """
+
         sku = SKU(
-            id=ObjectId("62b1891c1c248bcedf2d08b8"),
             code="3616585721",
             marketplace="americanas",
             product="62b189331c248bcedf2d08b9",
@@ -66,9 +69,14 @@ class TestSKU(TestCase):
         assert sku.json()
 
     def test_sku_from_dict(self) -> None:
+        """
+        Test creating SKU using Python dictionaries.
+
+        Advantage: Easily import docs from Mongo/Rabbit/Serialized.
+        """
+
         sku = SKU(
             **{
-                "id": ObjectId("62b1891c1c248bcedf2d08b8"),
                 "code": "3616585721",
                 "marketplace": "americanas",
                 "product": "62b189331c248bcedf2d08b9",
@@ -129,8 +137,13 @@ class TestSKU(TestCase):
         assert sku.json()
 
     def test_sku_from_hybrid(self) -> None:
+        """
+        Test creating SKU using Python object and dictionaries.
+
+        Advantage: None.
+        """
+
         sku = SKU(
-            id=ObjectId("62b1891c1c248bcedf2d08b8"),
             code="3616585721",
             marketplace="americanas",
             product="62b189331c248bcedf2d08b9",
