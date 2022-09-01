@@ -5,7 +5,7 @@ from unittest import TestCase
 from page_models import SKU, Attribute, Measurement, Metadata, Price, Rating
 
 
-class TestSKU(TestCase):
+class TestSKUInit(TestCase):
     def test_sku_from_objects(self) -> None:
         """
         Test creating SKU using Python objects.

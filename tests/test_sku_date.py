@@ -4,7 +4,7 @@ from unittest import TestCase
 from page_models import SKU
 
 
-class TestDate(TestCase):
+class TestSKUDate(TestCase):
     def test_created(self) -> None:
         """
         This test is s counter-measure for whenever someone change

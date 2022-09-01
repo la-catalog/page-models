@@ -1,13 +1,13 @@
 from hashlib import sha3_512
 
-from gtin import get_gcp, has_valid_check_digit
-from pydantic import AnyHttpUrl, BaseModel, constr, validator
+from pydantic import BaseModel, validator
 
 from page_models.sku.attribute import Attribute
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
+from page_models.validators import val_gtin, val_str, val_url
 
 
 class SKU(BaseModel):
@@ -36,24 +36,24 @@ class SKU(BaseModel):
 
     # Core fields
     # Any change to this fields, would mean that the SKU have been updated
-    code: constr(min_length=1, strip_whitespace=True)
-    marketplace: constr(min_length=1, strip_whitespace=True, to_lower=True)
-    product: constr(min_length=1, strip_whitespace=True) = None
-    name: constr(min_length=1, strip_whitespace=True)
-    brand: constr(min_length=1, strip_whitespace=True) = None
-    description: constr(min_length=1, strip_whitespace=True) = None
-    gtin: constr(min_length=8, strip_whitespace=True) = None
-    ncm: constr(min_length=8, strip_whitespace=True) = None
+    code: str
+    marketplace: str
+    name: str
+    product: str = None
+    brand: str = None
+    description: str = None
+    gtin: str = None
+    ncm: str = None
     prices: list[Price] = []
-    segments: list[constr(min_length=1, strip_whitespace=True)] = []
+    segments: list[str] = []
     attributes: list[Attribute] = []
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
     rating: Rating = Rating()
-    audios: list[AnyHttpUrl] = []
-    images: list[AnyHttpUrl] = []
-    videos: list[AnyHttpUrl] = []
-    variations: list[AnyHttpUrl] = []
+    audios: list[str] = []
+    images: list[str] = []
+    videos: list[str] = []
+    variations: list[str] = []
 
     # Organization fields
     # Field used by organization to optimize pipeline or catalog
@@ -64,21 +64,46 @@ class SKU(BaseModel):
             set: lambda v: list(v),
         }
 
-    @validator("gtin")
-    def gtin_valid(value: str) -> str:
-        if isinstance(value, str):
-            if not has_valid_check_digit(value):
-                raise ValueError("Invalid check digit")
-            if not get_gcp(value).isnumeric():
-                raise ValueError("Invalid GCP")
-        return value
-
-    _audios = validator("audios", each_item=True, allow_reuse=True)(lambda u: str(u))
-    _images = validator("images", each_item=True, allow_reuse=True)(lambda u: str(u))
-    _videos = validator("videos", each_item=True, allow_reuse=True)(lambda u: str(u))
-    _variations = validator("variations", each_item=True, allow_reuse=True)(
-        lambda u: str(u)
+    _code = validator("code", allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True)
     )
+
+    _marketplace = validator("marketplace", allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True, to_lower=True)
+    )
+
+    _name = validator("name", allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True)
+    )
+
+    _product = validator("product", allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True)
+    )
+
+    _brand = validator("brand", allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True)
+    )
+
+    _description = validator("description", allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True)
+    )
+
+    _gtin = validator("gtin", allow_reuse=True)(
+        val_gtin(min_length=8, strip_whitespace=True)
+    )
+
+    _ncm = validator("ncm", allow_reuse=True)(
+        val_str(min_length=8, strip_whitespace=True)
+    )
+
+    _segments = validator("segments", each_item=True, allow_reuse=True)(
+        val_str(min_length=1, strip_whitespace=True)
+    )
+
+    _audios = validator("audios", each_item=True, allow_reuse=True)(val_url())
+    _images = validator("images", each_item=True, allow_reuse=True)(val_url())
+    _videos = validator("videos", each_item=True, allow_reuse=True)(val_url())
+    _variations = validator("variations", each_item=True, allow_reuse=True)(val_url())
 
     def get_core(self, *args, **kwargs) -> dict:
         """Get only the core fields."""
