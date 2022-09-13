@@ -6,6 +6,11 @@ from page_models import SKU, Attribute, Measurement, Metadata, Price, Rating
 
 
 class TestSKUInit(TestCase):
+    """
+    Test initializing/creating a SKU.
+    None need to get the information from a real SKU.
+    """
+
     def test_sku_from_objects(self) -> None:
         """
         Test creating SKU using Python objects.
@@ -13,7 +18,7 @@ class TestSKUInit(TestCase):
         Advantage: Python object provide the developer with autocomplete.
         """
 
-        sku = SKU(
+        self.sku = SKU(
             code="3616585721",
             marketplace="americanas",
             product="62b189331c248bcedf2d08b9",
@@ -65,9 +70,6 @@ class TestSKUInit(TestCase):
             ),
         )
 
-        # check if transforming to json still working
-        assert sku.json()
-
     def test_sku_from_dict(self) -> None:
         """
         Test creating SKU using Python dictionaries.
@@ -75,7 +77,7 @@ class TestSKUInit(TestCase):
         Advantage: Easily import docs from Mongo/Rabbit/Serialized.
         """
 
-        sku = SKU(
+        self.sku = SKU(
             **{
                 "code": "3616585721",
                 "marketplace": "americanas",
@@ -133,17 +135,14 @@ class TestSKUInit(TestCase):
             }
         )
 
-        # check if transforming to json still working
-        assert sku.json()
-
     def test_sku_from_hybrid(self) -> None:
         """
         Test creating SKU using Python object and dictionaries.
 
-        Advantage: None.
+        Advantage: None?
         """
 
-        sku = SKU(
+        self.sku = SKU(
             code="3616585721",
             marketplace="americanas",
             product="62b189331c248bcedf2d08b9",
@@ -199,8 +198,13 @@ class TestSKUInit(TestCase):
             },
         )
 
-        # check if transforming to json still working
-        assert sku.json()
+    def tearDown(self) -> None:
+        """Check if transforming is still working"""
+
+        assert self.sku.json()
+        assert self.sku.dict()
+
+        return super().tearDown()
 
 
 if __name__ == "__main__":
