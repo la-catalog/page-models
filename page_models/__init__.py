@@ -1,5 +1,6 @@
 from page_models.query.query import Query
 from page_models.sku.attribute import Attribute
+from page_models.sku.base_sku import BaseSKU
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
