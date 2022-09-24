@@ -53,7 +53,7 @@ class SKU(BaseModel):
     audios: list[str] | set[str] = []
     images: list[str] | set[str] = []
     videos: list[str] | set[str] = []
-    variations: list[str] = []
+    variations: list[str] | set[str] = []
 
     # Organization fields
     # Field used by organization to optimize pipeline or catalog
@@ -100,10 +100,10 @@ class SKU(BaseModel):
         val_str(min_length=1, strip_whitespace=True)
     )
 
-    _audios = validator("audios", each_item=True, allow_reuse=True)(val_url())
-    _images = validator("images", each_item=True, allow_reuse=True)(val_url())
-    _videos = validator("videos", each_item=True, allow_reuse=True)(val_url())
-    _variations = validator("variations", each_item=True, allow_reuse=True)(val_url())
+    _audios = validator("audios", allow_reuse=True)(val_url(each_item=True))
+    _images = validator("images", allow_reuse=True)(val_url(each_item=True))
+    _videos = validator("videos", allow_reuse=True)(val_url(each_item=True))
+    _variations = validator("variations", allow_reuse=True)(val_url(each_item=True))
 
     def get_core(self, *args, **kwargs) -> dict:
         """Get only the core fields."""

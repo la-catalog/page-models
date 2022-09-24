@@ -45,8 +45,7 @@ def val_gtin(*args, **kwargs) -> str:
     return func
 
 
-def val_url() -> str:
-    def func(url: str):
-        return str(URL(url=url))
-
-    return func
+def val_url(each_item: bool = False) -> str:
+    if each_item:
+        return lambda urls: [str(URL(url=url)) for url in urls]
+    return lambda url: str(URL(url=url))
