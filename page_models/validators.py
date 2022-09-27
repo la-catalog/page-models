@@ -9,8 +9,17 @@ def val_str(
     to_upper: bool = False,
     min_length: int = None,
     max_length: int = None,
+    ignore_class: tuple = tuple(),
+    ignore_value: tuple = tuple(),
 ) -> str:
     def func(string: str):
+        if isinstance(string, ignore_class):
+            return string
+        elif string in ignore_value:
+            return string
+        elif not isinstance(string, (str,)):
+            raise TypeError(f"Expected a string but received '{type(string)}'")
+
         if to_lower:
             string = string.lower()
         elif to_upper:
