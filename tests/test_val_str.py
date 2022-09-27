@@ -81,7 +81,9 @@ class TestValStr(TestCase):
         self.assertRaises(ValidationError, self._val_none_class, string=None)
         assert self._val_none_class(string=None, ignore_classes=(NoneType,)) == None
 
-    def _val_none_value(self, string: str, ignore_values: tuple = tuple()) -> str:
+    def _val_none_value(
+        self, string: str, ignore_values: tuple | list = tuple()
+    ) -> str:
         class Example(BaseModel):
             string: str = None
             _string = validator("string", allow_reuse=True)(
