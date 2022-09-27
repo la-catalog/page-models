@@ -77,23 +77,23 @@ class SKU(BaseModel):
     )
 
     _product = validator("product", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True, ignore_value=[None])
+        val_str(min_length=1, strip_whitespace=True, ignore_values=[None])
     )
 
     _brand = validator("brand", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(min_length=1, strip_whitespace=True, ignore_values=[None])
     )
 
     _description = validator("description", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(min_length=1, strip_whitespace=True, ignore_values=[None])
     )
 
     _gtin = validator("gtin", allow_reuse=True)(
-        val_gtin(min_length=8, strip_whitespace=True)
+        val_gtin(min_length=8, strip_whitespace=True, ignore_values=[None])
     )
 
     _ncm = validator("ncm", allow_reuse=True)(
-        val_str(min_length=8, strip_whitespace=True)
+        val_str(min_length=8, strip_whitespace=True, ignore_values=[None])
     )
 
     _segments = validator("segments", each_item=True, allow_reuse=True)(
