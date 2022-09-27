@@ -68,31 +68,31 @@ class TestValStr(TestCase):
         self.assertRaises(ValidationError, self._val_max_length, "123456")
         assert self._val_max_length("12345") == "12345"
 
-    def _val_none_class(self, string: str, ignore_class: tuple = tuple()) -> str:
+    def _val_none_class(self, string: str, ignore_classes: tuple = tuple()) -> str:
         class Example(BaseModel):
             string: str = None
             _string = validator("string", allow_reuse=True)(
-                val_str(ignore_class=ignore_class)
+                val_str(ignore_classes=ignore_classes)
             )
 
         return Example(string=string).string
 
     def test_none_class(self):
         self.assertRaises(ValidationError, self._val_none_class, string=None)
-        assert self._val_none_class(string=None, ignore_class=(NoneType,)) == None
+        assert self._val_none_class(string=None, ignore_classes=(NoneType,)) == None
 
-    def _val_none_value(self, string: str, ignore_value: tuple = tuple()) -> str:
+    def _val_none_value(self, string: str, ignore_values: tuple = tuple()) -> str:
         class Example(BaseModel):
             string: str = None
             _string = validator("string", allow_reuse=True)(
-                val_str(ignore_value=ignore_value)
+                val_str(ignore_values=ignore_values)
             )
 
         return Example(string=string).string
 
     def test_none_value(self):
         self.assertRaises(ValidationError, self._val_none_value, string=None)
-        assert self._val_none_value(string=None, ignore_value=[None]) == None
+        assert self._val_none_value(string=None, ignore_values=[None]) == None
 
 
 if __name__ == "__main__":

@@ -77,7 +77,7 @@ class SKU(BaseModel):
     )
 
     _product = validator("product", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(min_length=1, strip_whitespace=True, ignore_value=[None])
     )
 
     _brand = validator("brand", allow_reuse=True)(

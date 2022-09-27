@@ -9,13 +9,13 @@ def val_str(
     to_upper: bool = False,
     min_length: int = None,
     max_length: int = None,
-    ignore_class: tuple = tuple(),
-    ignore_value: tuple = tuple(),
+    ignore_classes: tuple = tuple(),
+    ignore_values: tuple | list = tuple(),
 ) -> str:
     def func(string: str):
-        if isinstance(string, ignore_class):
+        if isinstance(string, ignore_classes):
             return string
-        elif string in ignore_value:
+        elif string in ignore_values:
             return string
         elif not isinstance(string, (str,)):
             raise TypeError(f"Expected a string but received '{type(string)}'")
