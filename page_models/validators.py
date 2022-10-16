@@ -1,3 +1,5 @@
+from typing import Callable
+
 from gtin import get_gcp, has_valid_check_digit
 
 from page_models.url import URL
@@ -15,7 +17,7 @@ def val_str(
     max_length: int = None,
     ignore_classes: tuple = tuple(),
     ignore_values: tuple | list = tuple(),
-) -> str:
+) -> Callable[[str], str]:
     def func(string: str):
         if isinstance(string, ignore_classes):
             return string
@@ -43,7 +45,7 @@ def val_str(
     return func
 
 
-def val_gtin(*args, **kwargs) -> str:
+def val_gtin(*args, **kwargs) -> Callable[[str], str]:
     def func(gtin: str):
         if not has_valid_check_digit(gtin):
             raise ValueError("invalid check digit")
@@ -58,7 +60,7 @@ def val_gtin(*args, **kwargs) -> str:
     return func
 
 
-def val_url(each_item: bool = False) -> str:
+def val_url(each_item: bool = False) -> Callable[[str | list[str]], str | list[str]]:
     if each_item:
         return lambda urls: [str(URL(url=url)) for url in urls]
     return lambda url: str(URL(url=url))
