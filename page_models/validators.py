@@ -2,6 +2,10 @@ from gtin import get_gcp, has_valid_check_digit
 
 from page_models.url import URL
 
+# I have to remember why i had the need to create this functions
+# for some reason constr didn't solve my problem and i cant remember.
+# I do remember that i had a big problem using "or" operation in types
+
 
 def val_str(
     strip_whitespace: bool = False,

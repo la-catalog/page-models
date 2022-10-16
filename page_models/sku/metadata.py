@@ -37,7 +37,12 @@ class Metadata(BaseModel):
     _links = validator("links", each_item=True, allow_reuse=True)(lambda u: str(u))
 
     def fill(self, hash: str):
-        """Fill missing fields."""
+        """
+        Fill missing fields.
+
+        Some fields shouldn't have None as value, but they
+        can only be calculate after creating the SKU.
+        """
 
         self.created = self.created or datetime.utcnow()
         self.updated = self.updated or self.created
