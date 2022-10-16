@@ -4,9 +4,33 @@ from gtin import get_gcp, has_valid_check_digit
 
 from page_models.url import URL
 
-# I have to remember why i had the need to create this functions
-# for some reason constr didn't solve my problem and i cant remember.
-# I do remember that i had a big problem using "or" operation in types
+"""
+Why did i reinvent the wheel?
+
+Whenever i used Pydantic functions (constr, conint, condate, condecimal, etc)
+autocomplete was never able to infer the types and would say that my object
+expect a value of type "Any". Example:
+
+    class Foo(BaseModel):
+        number: conint(gt=0)
+
+    Foo(number=10)  # Autocomplete: (class) Foo(*, number: Any)
+
+Other problem is that whenever i used Optional as type, the parameter
+each_item from validator wouldn't see this as something to loop over. Example:
+
+    class Foo(BaseModel):
+        many_numbers: list[int] | set[int]
+
+        @validator("many_numbers", each_item=True)
+        def example(n: int):
+            assert n >= 0
+    
+    Foo(many_numbers=[1, 2, 3, 4]) # Error
+
+I'm considering using Data Classes (https://docs.python.org/3/library/dataclasses.html)
+if pydantic doesn't add any value compared to @dataclass
+"""
 
 
 def val_str(
