@@ -16,9 +16,7 @@ class URL(AnyHttpUrl):
     def __init__(self, url: str, *args, **kwargs) -> None:
         scheme, found, _ = url.partition("://")
 
-        if found:
-            super().__init__(url=url, scheme=scheme, *args, **kwargs)
-        else:
-            super().__init__(url=url, scheme="https", *args, **kwargs)
+        if not found:
+            raise ValueError(f"Scheme not found in '{url}'")
 
-        self.str = str(self)
+        super().__init__(url=url, scheme=scheme, *args, **kwargs)
