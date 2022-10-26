@@ -3,7 +3,7 @@ from hashlib import sha3_512
 from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
-from page_models.models import CoreModel
+from page_models.core import CoreModel
 from page_models.sku.attribute import Attribute
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata

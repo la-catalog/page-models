@@ -1,7 +1,11 @@
-from pydantic import BaseModel
+from pydantic import Field, validator
+from pydantic.dataclasses import dataclass
+
+from page_models.core import CoreModel
 
 
-class Rating(BaseModel):
-    current: float = None
-    min: float = None
-    max: float = None
+@dataclass
+class Rating(CoreModel):
+    current: float | None = Field(default=None)
+    min: float | None = Field(default=None)
+    max: float | None = Field(default=None)
