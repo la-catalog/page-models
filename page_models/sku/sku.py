@@ -1,7 +1,9 @@
 from hashlib import sha3_512
 
-from pydantic import BaseModel, validator
+from pydantic import Field, validator
+from pydantic.dataclasses import dataclass
 
+from page_models.models import CoreModel
 from page_models.sku.attribute import Attribute
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
@@ -10,7 +12,8 @@ from page_models.sku.rating import Rating
 from page_models.validators import val_gtin, val_str, val_url
 
 
-class SKU(BaseModel):
+@dataclass
+class SKU(CoreModel):
     """
     code - SKU code inside the marketplace
     marketplace - Marketplace name using snake_case style
@@ -44,25 +47,20 @@ class SKU(BaseModel):
     description: str = None
     gtin: str = None
     ncm: str = None
-    prices: list[Price] = []
-    segments: list[str] = []
-    attributes: list[Attribute] = []
+    prices: list[Price] = Field(default_factory=list)
+    segments: list[str] = Field(default_factory=list)
+    attributes: list[Attribute] = Field(default_factory=list)
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
     rating: Rating = Rating()
-    audios: list[str] | set[str] = []
-    images: list[str] | set[str] = []
-    videos: list[str] | set[str] = []
-    variations: list[str] | set[str] = []
+    audios: list[str] = Field(default_factory=list)
+    images: list[str] = Field(default_factory=list)
+    videos: list[str] = Field(default_factory=list)
+    variations: list[str] = Field(default_factory=list)
 
     # Organization fields
     # Field used by organization to optimize pipeline or catalog
-    metadata: Metadata
-
-    class Config:
-        json_encoders = {
-            set: lambda v: list(v),
-        }
+    metadata: Metadata = Field(default=None)
 
     _code = validator("code", allow_reuse=True)(
         val_str(min_length=1, strip_whitespace=True)
@@ -105,15 +103,15 @@ class SKU(BaseModel):
     _videos = validator("videos", allow_reuse=True)(val_url(each_item=True))
     _variations = validator("variations", allow_reuse=True)(val_url(each_item=True))
 
-    def get_core(self, *args, **kwargs) -> dict:
+    def get_core(self) -> dict:
         """Get only the core fields."""
 
-        sku = self.dict(*args, **kwargs)
+        sku = self.dict()
         sku.pop("metadata", None)
 
         return sku
 
-    def get_hash(self, *args, **kwargs) -> str:
+    def get_hash(self) -> str:
         """
         Get the core fields hash.
 
@@ -121,20 +119,11 @@ class SKU(BaseModel):
         tell us how the SKU was in that point in time.
         """
 
-        sku = self.get_core(*args, **kwargs)
+        sku = self.get_core()
         data = str(sku).encode("UTF8")
         hash = sha3_512(data).hexdigest()
 
         return hash
 
-    def fill(self):
-        """
-        Fill missing fields.
-
-        Some fields shouldn't have None as value, but they
-        can only be calculate after creating the SKU.
-        """
-
-        self.metadata.fill(hash=self.get_hash())
-
-        return self
+    def __post_init_post_parse__(self):
+        self.metadata.hash = self.get_hash()

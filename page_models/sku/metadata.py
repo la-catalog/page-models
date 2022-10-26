@@ -1,14 +1,14 @@
 from datetime import datetime
 
-from pydantic import AnyHttpUrl, BaseModel, Field, conint, conlist, validator
-from pydantic.dataclasses import dataclass, set_validation
+from pydantic import Field, validator
+from pydantic.dataclasses import dataclass
 
-from page_models.url import URL
+from page_models.models import CoreModel
 from page_models.validators import val_url
 
 
 @dataclass
-class Metadata:
+class Metadata(CoreModel):
     """
     created - When the SKU was created
     updated - When the SKU was last updated
@@ -29,27 +29,17 @@ class Metadata:
     updated: datetime = None
     deleted: datetime = None
 
-    sources: list[str] = Field(default_factory=list, min_items=1)
+    sources: list[str] = Field(min_items=1)
     query: str = None
-    origin: str = None
+    origin: str = Field(min_length=1)
     grade: int = Field(default=0, ge=0)
     relatives: dict[str, bool] = Field(default_factory=dict)
-    links: list[str] | set[str] = Field(default_factory=list)
+    links: list[str] = Field(default_factory=list)
 
     hash: str = None
 
     _sources = validator("sources", allow_reuse=True)(val_url(each_item=True))
     _links = validator("links", allow_reuse=True)(val_url(each_item=True))
-
-    def fill(self, hash: str):
-        """
-        Fill missing fields.
-
-        Some fields shouldn't have None as value, but they
-        can only be calculate after creating the SKU.
-        """
-
-        self.hash = hash
 
     def __post_init_post_parse__(self):
         self.updated = self.updated or self.created
