@@ -2,6 +2,6 @@ from pydantic import BaseModel
 
 
 class Rating(BaseModel):
-    current: float | None = None
-    min: float | None = None
-    max: float | None = None
+    current: float = None
+    min: float = None
+    max: float = None

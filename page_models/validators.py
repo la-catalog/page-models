@@ -59,10 +59,10 @@ def val_str(
             string = string.strip()
 
         if min_length is not None and len(string) < min_length:
-            raise ValueError(f"minimum accepted length is {min_length}")
+            raise ValueError(f"Minimum accepted length is {min_length}")
 
         if max_length is not None and len(string) > max_length:
-            raise ValueError(f"maximum accepted length is {min_length}")
+            raise ValueError(f"Maximum accepted length is {min_length}")
 
         return string
 
@@ -72,10 +72,10 @@ def val_str(
 def val_gtin(*args, **kwargs) -> Callable[[str], str]:
     def func(gtin: str):
         if not has_valid_check_digit(gtin):
-            raise ValueError("invalid check digit")
+            raise ValueError("Invalid check digit")
 
         if not get_gcp(gtin).isnumeric():
-            raise ValueError("invalid GCP")
+            raise ValueError("Invalid GCP")
 
         gtin = val_str(*args, **kwargs)(gtin)
 
@@ -86,5 +86,19 @@ def val_gtin(*args, **kwargs) -> Callable[[str], str]:
 
 def val_url(each_item: bool = False) -> Callable[[str | list[str]], str | list[str]]:
     if each_item:
+        # I'm not preserving the iterator type, but is fine for me
         return lambda urls: [str(URL(url=url)) for url in urls]
     return lambda url: str(URL(url=url))
+
+
+def val_number(positive: bool = False) -> Callable[[int | float], int | float]:
+    def func(number: int | float):
+        if not isinstance(number, (int, float)):
+            raise TypeError(f"Expected a int or float but received '{type(number)}'")
+
+        if positive and number < 0:
+            raise ValueError(f"Number {number} is not positive")
+
+        return number
+
+    return func
