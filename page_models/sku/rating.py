@@ -65,20 +65,27 @@ class Rating(CoreModel):
     current: float | None = Field(default=None)
 
     def __post_init_post_parse__(self):
-        max_setted = self.max is not None
+        # Did you notice it? I'm always mentioning minimum before maximum
+        # whenever is possible (declaration, condition, message).
+
         min_setted = self.min is not None
+        max_setted = self.max is not None
         current_setted = self.current is None
 
-        if max_setted != min_setted:
-            raise ValueError("Both max and min must be setted or unsetted")
-
-        if current_setted and max_setted and min_setted:
-            raise ValueError("Can't set current without min and max")
-
-        if self.max <= self.min:
+        if min_setted != max_setted:
             raise ValueError(
-                f"Value in min ({self.min}) is greater than value in max ({self.max})"
+                f"Both minimum ({self.min}) and maximum ({self.max}) must be setted or unsetted"
+            )
+
+        if current_setted and min_setted and max_setted:
+            raise ValueError(
+                f"Can't set current without minimum ({self.min}) and maximum ({self.max})"
+            )
+
+        if self.min > self.max:
+            raise ValueError(
+                f"Minimum ({self.min}) is greater than maximum ({self.max})"
             )
 
         if not (self.min <= self.current <= self.max):
-            raise ValueError("Current value must be between min and max")
+            raise ValueError("Current value must be between minimum and maximum")
