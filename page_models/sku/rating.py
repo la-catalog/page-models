@@ -63,3 +63,22 @@ class Rating(CoreModel):
     min: float | None = Field(default=None)
     max: float | None = Field(default=None)
     current: float | None = Field(default=None)
+
+    def __post_init_post_parse__(self):
+        max_setted = self.max is not None
+        min_setted = self.min is not None
+        current_setted = self.current is None
+
+        if max_setted != min_setted:
+            raise ValueError("Both max and min must be setted or unsetted")
+
+        if current_setted and max_setted and min_setted:
+            raise ValueError("Can't set current without min and max")
+
+        if self.max <= self.min:
+            raise ValueError(
+                f"Value in min ({self.min}) is greater than value in max ({self.max})"
+            )
+
+        if not (self.min <= self.current <= self.max):
+            raise ValueError("Current value must be between min and max")

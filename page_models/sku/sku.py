@@ -15,7 +15,7 @@ from page_models.validators import val_gtin, val_str, val_url
 @dataclass
 class SKU(CoreModel):
     """
-    code - SKU code inside the marketplace
+    code - SKU code inside the marketplace (or any string that can be used as reference to SKU)
     marketplace - Marketplace name using snake_case style
     product - Product code inside the marketplace
     name - Name (never empty)
