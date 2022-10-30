@@ -11,9 +11,9 @@ class Attribute(CoreModel):
     value: str = Field(default_factory=str)
 
     _name = validator("name", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(strip_whitespace=True, min_length=1)
     )
 
     _value = validator("value", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(strip_whitespace=True, min_length=1)
     )

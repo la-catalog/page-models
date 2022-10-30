@@ -1,3 +1,4 @@
+from numbers import Number
 from typing import Callable
 
 from gtin import get_gcp, has_valid_check_digit
@@ -63,14 +64,19 @@ def val_url(each_item: bool = False) -> Callable[[str | list[str]], str | list[s
     return lambda url: str(URL(url=url))
 
 
-def val_number(positive: bool = False) -> Callable[[int | float], int | float]:
-    def func(number: int | float):
-        if not isinstance(number, (int, float)):
-            raise TypeError(f"Expected a int or float but received '{type(number)}'")
+def val_number(
+    positive: bool = False, each_item: bool = False
+) -> Callable[[Number], Number]:
+    def func(number: Number):
+        if not isinstance(number, Number):
+            raise TypeError(f"Expected a number but received '{type(number)}'")
 
         if positive and number < 0:
             raise ValueError(f"Number {number} is not positive")
 
         return number
 
+    if each_item:
+        # I'm not preserving the iterator type, but is fine for me
+        return lambda numbers: [func(n) for n in numbers]
     return func

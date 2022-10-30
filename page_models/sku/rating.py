@@ -9,9 +9,9 @@ class Rating(CoreModel):
     """
     Most ratings scales can be converted to numbers.
 
-    min - minimum value in the rating system
-    max - maximum value in the rating system
-    current - current value in the rating system
+    min - Minimum value in the rating system
+    max - Maximum value in the rating system
+    current - Current value in the rating system
 
     Star rating:
         - ☆ ☆ ☆ ☆ ☆
@@ -58,6 +58,10 @@ class Rating(CoreModel):
             - min: -3
             - max: 3
             - current: 1
+
+    References:
+        https://en.wikipedia.org/wiki/Rating_scale
+        https://en.wikipedia.org/wiki/Star_(classification)
     """
 
     min: float | None = Field(default=None)

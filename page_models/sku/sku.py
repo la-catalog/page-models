@@ -63,27 +63,27 @@ class SKU(CoreModel):
     metadata: Metadata = Field(default=None)
 
     _code = validator("code", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(strip_whitespace=True, min_length=1)
     )
 
     _marketplace = validator("marketplace", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True, to_lower=True)
+        val_str(strip_whitespace=True, min_length=1, to_lower=True)
     )
 
     _name = validator("name", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(strip_whitespace=True, min_length=1)
     )
 
     _product = validator("product", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True, ignore_values=[None])
+        val_str(strip_whitespace=True, min_length=1, ignore_values=[None])
     )
 
     _brand = validator("brand", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True, ignore_values=[None])
+        val_str(strip_whitespace=True, min_length=1, ignore_values=[None])
     )
 
     _description = validator("description", allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True, ignore_values=[None])
+        val_str(strip_whitespace=True, min_length=1, ignore_values=[None])
     )
 
     _gtin = validator("gtin", allow_reuse=True)(
@@ -95,7 +95,7 @@ class SKU(CoreModel):
     )
 
     _segments = validator("segments", each_item=True, allow_reuse=True)(
-        val_str(min_length=1, strip_whitespace=True)
+        val_str(strip_whitespace=True, min_length=1)
     )
 
     _audios = validator("audios", allow_reuse=True)(val_url(each_item=True))
