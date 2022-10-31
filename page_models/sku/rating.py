@@ -1,10 +1,10 @@
-from pydantic import Field, validator
+from pydantic import Field
 from pydantic.dataclasses import dataclass
 
-from page_models.core import CoreModel
+from page_models.core import CoreModel, core_config
 
 
-@dataclass
+@dataclass(config=core_config)
 class Rating(CoreModel):
     """
     Most ratings scales can be converted to numbers.
@@ -74,22 +74,24 @@ class Rating(CoreModel):
 
         min_setted = self.min is not None
         max_setted = self.max is not None
-        current_setted = self.current is None
+        current_setted = self.current is not None
 
         if min_setted != max_setted:
             raise ValueError(
                 f"Both minimum ({self.min}) and maximum ({self.max}) must be setted or unsetted"
             )
 
-        if current_setted and min_setted and max_setted:
+        if min_setted:
+            if self.min > self.max:
+                raise ValueError(
+                    f"Minimum ({self.min}) is greater than maximum ({self.max})"
+                )
+
+            if current_setted and not (self.min <= self.current <= self.max):
+                raise ValueError(
+                    f"Current value ({self.current}) must be between minimum ({self.min}) and maximum ({self.max})"
+                )
+        elif current_setted:
             raise ValueError(
                 f"Can't set current without minimum ({self.min}) and maximum ({self.max})"
             )
-
-        if self.min > self.max:
-            raise ValueError(
-                f"Minimum ({self.min}) is greater than maximum ({self.max})"
-            )
-
-        if not (self.min <= self.current <= self.max):
-            raise ValueError("Current value must be between minimum and maximum")

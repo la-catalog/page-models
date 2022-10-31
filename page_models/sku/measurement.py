@@ -1,11 +1,11 @@
 from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
-from page_models.core import CoreModel
+from page_models.core import CoreModel, core_config
 from page_models.validators import val_number, val_str
 
 
-@dataclass
+@dataclass(config=core_config)
 class Measurement(CoreModel):
     length: float | None = Field(default=None)
     width: float | None = Field(default=None)

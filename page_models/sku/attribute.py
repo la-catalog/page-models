@@ -1,11 +1,11 @@
 from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
-from page_models.core import CoreModel
+from page_models.core import CoreModel, core_config
 from page_models.validators import val_str
 
 
-@dataclass
+@dataclass(config=core_config)
 class Attribute(CoreModel):
     name: str = Field(default_factory=str)
     value: str = Field(default_factory=str)

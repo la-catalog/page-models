@@ -3,11 +3,11 @@ from decimal import Decimal
 from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
-from page_models.core import CoreModel
+from page_models.core import CoreModel, core_config
 from page_models.validators import val_number, val_str
 
 
-@dataclass
+@dataclass(config=core_config)
 class Price(CoreModel):
     """
     SKU price (at cash or in installments).

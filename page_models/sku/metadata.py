@@ -3,13 +3,15 @@ from datetime import datetime
 from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
-from page_models.core import CoreModel
+from page_models.core import CoreModel, core_config
 from page_models.validators import val_url
 
 
-@dataclass
+@dataclass(config=core_config)
 class Metadata(CoreModel):
     """
+    Informations about the SKU.
+
     created - When the SKU was created
     updated - When the SKU was last updated
     deleted - When the SKU was deleted

@@ -3,7 +3,7 @@ from hashlib import sha3_512
 from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
-from page_models.core import CoreModel
+from page_models.core import CoreModel, core_config
 from page_models.sku.attribute import Attribute
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
@@ -12,7 +12,7 @@ from page_models.sku.rating import Rating
 from page_models.validators import val_gtin, val_str, val_url
 
 
-@dataclass
+@dataclass(config=core_config)
 class SKU(CoreModel):
     """
     code - SKU code inside the marketplace (or any string that can be used as reference to SKU)

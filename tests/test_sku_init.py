@@ -18,8 +18,8 @@ class TestSKUInit(TestCase):
         self.brand = "MOTOROLA"
         self.description = "O mais avançado e potente"
         self.gtin = "7892597351206"
-        self.price_obj = Price(value=2699, currency="R$")
-        self.price_dict = {"value": 2699, "currency": "R$"}
+        self.price_obj = Price(installments=["2699"], currency="real", method="pix")
+        self.price_dict = {"value": 2699, "currency": "real"}
         self.segments = [
             "celulares e smartphones",
             "smartphone",
