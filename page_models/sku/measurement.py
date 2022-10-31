@@ -7,6 +7,13 @@ from page_models.validators import val_number, val_str
 
 @dataclass(config=core_config)
 class Measurement(CoreModel):
+    """
+    SKU/Package measurement.
+
+    References:
+        https://www.diferenca.com/comprimento-largura-e-altura/#:~:text=A%20norma%20diz%20que%20as,x%20altura%20(ou%20profundidade).
+    """
+
     length: float | None = Field(default=None)
     width: float | None = Field(default=None)
     height: float | None = Field(default=None)

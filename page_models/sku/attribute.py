@@ -7,6 +7,14 @@ from page_models.validators import val_str
 
 @dataclass(config=core_config)
 class Attribute(CoreModel):
+    """
+    Attribute is a generic field that doesn't fit with others
+    because you can't validate or make assumptions about it.
+
+    name - Attribute name
+    value - Attribute value
+    """
+
     name: str = Field(default_factory=str)
     value: str = Field(default_factory=str)
 

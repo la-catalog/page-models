@@ -10,7 +10,7 @@ from page_models.validators import val_url
 @dataclass(config=core_config)
 class Metadata(CoreModel):
     """
-    Informations about the SKU.
+    Metadata about SKU.
 
     created - When the SKU was created
     updated - When the SKU was last updated
