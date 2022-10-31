@@ -58,10 +58,12 @@ def val_gtin(*args, **kwargs) -> Callable[[str], str]:
 
 
 def val_url(each_item: bool = False) -> Callable[[str | list[str]], str | list[str]]:
+    def func(url: str):
+        return str(URL(url=url))
+
     if each_item:
-        # I'm not preserving the iterator type, but is fine for me
-        return lambda urls: [str(URL(url=url)) for url in urls]
-    return lambda url: str(URL(url=url))
+        return lambda items: [func(i) for i in items]
+    return func
 
 
 def val_number(
@@ -77,6 +79,5 @@ def val_number(
         return number
 
     if each_item:
-        # I'm not preserving the iterator type, but is fine for me
-        return lambda numbers: [func(n) for n in numbers]
+        return lambda items: [func(i) for i in items]
     return func
