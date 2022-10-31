@@ -32,7 +32,7 @@ class Metadata(CoreModel):
     deleted: datetime = None
 
     sources: list[str] = Field(min_items=1)
-    query: str = None
+    query: str | None = Field(default=None)
     origin: str = Field(min_length=1)
     grade: int = Field(default=0, ge=0)
     relatives: dict[str, bool] = Field(default_factory=dict)
