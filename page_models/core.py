@@ -1,7 +1,10 @@
 import json
 from dataclasses import asdict
 
+from pydantic import ConfigDict, Extra
 from pydantic.json import pydantic_encoder
+
+core_config = ConfigDict(extra=Extra.forbid)
 
 
 class CoreModel:
