@@ -1,22 +1,16 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import Field
+from pydantic.dataclasses import dataclass
+
+from page_models.core import CoreModel, core_config
 
 
-class Metadata(BaseModel):
+@dataclass(config=core_config)
+class Metadata(CoreModel):
     """
     created - When the query was created
     """
 
     # Datetime fields (UTC time)
-    created: datetime = None
-
-    def fill(self):
-        """
-        Fill missing fields.
-
-        Some fields shouldn't have None as value, but they
-        can only be calculate after creating the SKU.
-        """
-
-        self.created = self.created or datetime.utcnow()
+    created: datetime = Field(default_factory=datetime.utcnow)
