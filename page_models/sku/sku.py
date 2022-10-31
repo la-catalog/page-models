@@ -60,7 +60,7 @@ class SKU(CoreModel):
 
     # Organization fields
     # Field used by organization to optimize pipeline or catalog
-    metadata: Metadata = Field(default=None)
+    metadata: Metadata = Field()
 
     _code = validator("code", allow_reuse=True)(
         val_str(strip_whitespace=True, min_length=1)

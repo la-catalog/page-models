@@ -42,15 +42,34 @@ def val_str(
     return func
 
 
-def val_gtin(*args, **kwargs) -> Callable[[str], str]:
+def val_gtin(
+    strip_whitespace: bool = False,
+    to_lower: bool = False,
+    to_upper: bool = False,
+    min_length: int = None,
+    max_length: int = None,
+    ignore_classes: tuple = tuple(),
+    ignore_values: tuple | list = tuple(),
+) -> Callable[[str], str]:
     def func(gtin: str):
+        if gtin in ignore_values:
+            return gtin
+
         if not has_valid_check_digit(gtin):
             raise ValueError("Invalid check digit")
 
         if not get_gcp(gtin).isnumeric():
             raise ValueError("Invalid GCP")
 
-        gtin = val_str(*args, **kwargs)(gtin)
+        gtin = val_str(
+            strip_whitespace=strip_whitespace,
+            to_lower=to_lower,
+            to_upper=to_upper,
+            min_length=min_length,
+            max_length=max_length,
+            ignore_classes=ignore_classes,
+            ignore_values=ignore_values,
+        )(gtin)
 
         return gtin
 
