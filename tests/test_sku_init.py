@@ -19,7 +19,11 @@ class TestSKUInit(TestCase):
         self.description = "O mais avançado e potente"
         self.gtin = "7892597351206"
         self.price_obj = Price(installments=["2699"], currency="real", method="pix")
-        self.price_dict = {"value": 2699, "currency": "real"}
+        self.price_dict = {
+            "installments": ["2699"],
+            "currency": "real",
+            "method": "pix",
+        }
         self.segments = [
             "celulares e smartphones",
             "smartphone",
