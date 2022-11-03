@@ -64,9 +64,9 @@ class Rating(CoreModel):
         https://en.wikipedia.org/wiki/Star_(classification)
     """
 
-    min: float | None = Field(default=None)
-    max: float | None = Field(default=None)
-    current: float | None = Field(default=None)
+    min: float = None
+    max: float = None
+    current: float = None
 
     def __post_init_post_parse__(self):
         # Did you notice it? I'm always mentioning minimum before maximum

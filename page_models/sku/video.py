@@ -28,11 +28,11 @@ class Video(CoreModel):
     """
 
     url: str
-    hash: str | None = Field(default=None)
-    width: int | None = Field(default=None)
-    height: int | None = Field(default=None)
-    duration: int | None = Field(default=None)
-    format: str | None = Field(default=None)
+    hash: str = None
+    width: int = None
+    height: int = None
+    duration: int = None
+    format: str = None
 
     _url = validator("url", allow_reuse=True)(val_url())
 

@@ -26,9 +26,9 @@ class Audio(CoreModel):
     """
 
     url: str
-    hash: str | None = Field(default=None)
-    duration: int | None = Field(default=None)
-    format: str | None = Field(default=None)
+    hash: str = None
+    duration: int = None
+    format: str = None
 
     _url = validator("url", allow_reuse=True)(val_url())
 

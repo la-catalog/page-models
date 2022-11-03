@@ -33,8 +33,8 @@ class Price(CoreModel):
     """
 
     installments: list[Decimal] = Field(default_factory=list, min_items=1)
-    currency: str | None = Field(default=None)
-    method: str | None = Field(default=None)
+    currency: str = None
+    method: str = None
 
     _installments = validator("installments", allow_reuse=True)(
         val_number(positive=True, each_item=True)
