@@ -1,4 +1,5 @@
-from pydantic import AnyHttpUrl, BaseModel, Field, PositiveInt, constr, validator
+from pydantic import (AnyHttpUrl, BaseModel, Field, PositiveInt, constr,
+                      validator)
 from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
