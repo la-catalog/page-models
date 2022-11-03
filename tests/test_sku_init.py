@@ -1,7 +1,8 @@
 import unittest
 from unittest import TestCase
 
-from page_models import SKU, Attribute, Image, Measurement, Metadata, Price, Rating
+from page_models import (SKU, Attribute, Image, Measurement, Metadata, Price,
+                         Rating)
 
 
 class TestSKUInit(TestCase):
