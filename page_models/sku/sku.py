@@ -5,10 +5,13 @@ from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
 from page_models.sku.attribute import Attribute
+from page_models.sku.audio import Audio
+from page_models.sku.image import Image
 from page_models.sku.measurement import Measurement
 from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
+from page_models.sku.video import Video
 from page_models.validators import val_gtin, val_str, val_url
 
 
@@ -53,9 +56,9 @@ class SKU(CoreModel):
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
     rating: Rating = Rating()
-    audios: list[str] = Field(default_factory=list)
-    images: list[str] = Field(default_factory=list)
-    videos: list[str] = Field(default_factory=list)
+    audios: list[Audio] = Field(default_factory=list)
+    images: list[Image] = Field(default_factory=list)
+    videos: list[Video] = Field(default_factory=list)
     variations: list[str] = Field(default_factory=list)
 
     # Organization fields
@@ -98,9 +101,6 @@ class SKU(CoreModel):
         val_str(strip_whitespace=True, min_length=1)
     )
 
-    _audios = validator("audios", allow_reuse=True)(val_url(each_item=True))
-    _images = validator("images", allow_reuse=True)(val_url(each_item=True))
-    _videos = validator("videos", allow_reuse=True)(val_url(each_item=True))
     _variations = validator("variations", allow_reuse=True)(val_url(each_item=True))
 
     def get_core(self) -> dict:

@@ -1,9 +1,22 @@
 from numbers import Number
-from typing import Callable
+from typing import Any, Callable
 
 from gtin import get_gcp, has_valid_check_digit
 
 from page_models.url import URL
+
+
+def should_ignore(
+    value: Any, ignore_classes: tuple = tuple(), ignore_values: tuple | list = tuple()
+) -> bool:
+    """
+    Check whenever the value should be ignored.
+
+    Many validations accept exceptions and this functions
+    is a shortcut to check this. For example, you may need to
+    validate strings but you could also accept None values.
+    """
+    return isinstance(value, ignore_classes) or value in ignore_values
 
 
 def val_str(
@@ -16,11 +29,10 @@ def val_str(
     ignore_values: tuple | list = tuple(),
 ) -> Callable[[str], str]:
     def func(string: str):
-        if isinstance(string, ignore_classes):
+        if should_ignore(string, ignore_classes, ignore_values):
             return string
-        elif string in ignore_values:
-            return string
-        elif not isinstance(string, (str,)):
+
+        if not isinstance(string, (str,)):
             raise TypeError(f"Expected a string but received '{type(string)}'")
 
         if to_lower:
@@ -52,7 +64,7 @@ def val_gtin(
     ignore_values: tuple | list = tuple(),
 ) -> Callable[[str], str]:
     def func(gtin: str):
-        if gtin in ignore_values:
+        if should_ignore(gtin, ignore_classes, ignore_values):
             return gtin
 
         if not has_valid_check_digit(gtin):
@@ -86,9 +98,15 @@ def val_url(each_item: bool = False) -> Callable[[str | list[str]], str | list[s
 
 
 def val_number(
-    positive: bool = False, each_item: bool = False
+    positive: bool = False,
+    ignore_classes: tuple = tuple(),
+    ignore_values: tuple | list = tuple(),
+    each_item: bool = False,
 ) -> Callable[[Number], Number]:
     def func(number: Number):
+        if should_ignore(number, ignore_classes, ignore_values):
+            return number
+
         if not isinstance(number, Number):
             raise TypeError(f"Expected a number but received '{type(number)}'")
 

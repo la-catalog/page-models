@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from page_models import SKU, Attribute, Measurement, Metadata, Price, Rating
+from page_models import SKU, Attribute, Image, Measurement, Metadata, Price, Rating
 
 
 class TestSKUInit(TestCase):
@@ -55,19 +55,81 @@ class TestSKUInit(TestCase):
         }
         self.rating_obj = Rating(current=4.2, min=1, max=5)
         self.rating_dict = {"current": 4.2, "min": 1, "max": 5}
-        self.images = [
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_1SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_2SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_3SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_4SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_5SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_6SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_7SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_8SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_9SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_10SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg",
-            "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg",
+        self.images_obj = [
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_1SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_2SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_3SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_4SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_5SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_6SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_7SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_8SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_9SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_10SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg"
+            ),
+            Image(
+                url="https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg"
+            ),
+        ]
+        self.images_dict = [
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_1SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_2SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_3SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_4SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_5SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_6SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_7SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_8SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_9SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_10SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_11SZ.jpg"
+            },
+            {
+                "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg"
+            },
         ]
         self.metadata_obj = Metadata(
             origin="test", sources=["https://www.americanas.com.br/produto/3616585721"]
@@ -104,7 +166,7 @@ class TestSKUInit(TestCase):
             ],
             measurement=self.measurement_obj,
             rating=self.rating_obj,
-            images=self.images,
+            images=self.images_obj,
             metadata=self.metadata_obj,
         )
 
@@ -136,7 +198,7 @@ class TestSKUInit(TestCase):
                 ],
                 "measurement": self.measurement_dict,
                 "rating": self.rating_dict,
-                "images": self.images,
+                "images": self.images_dict,
                 "metadata": self.metadata_dict,
             }
         )
@@ -167,8 +229,8 @@ class TestSKUInit(TestCase):
                 self.attribute_dict_6,
             ],
             measurement=self.measurement_dict,
-            rating=self.rating_obj,
-            images=self.images,
+            rating=self.rating_dict,
+            images=self.images_dict,
             metadata=self.metadata_dict,
         )
 
