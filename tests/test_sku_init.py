@@ -131,6 +131,7 @@ class TestSKUInit(TestCase):
                 "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg"
             },
         ]
+        self.links = ["https://www.americanas.com.br/produto/3616560639"]
         self.metadata_obj = Metadata(
             sources=["https://www.americanas.com.br/produto/3616585721"]
         )
@@ -153,7 +154,6 @@ class TestSKUInit(TestCase):
             brand=self.brand,
             description=self.description,
             gtin=self.gtin,
-            prices=[self.price_obj],
             segments=self.segments,
             attributes=[
                 self.attribute_obj_1,
@@ -164,8 +164,10 @@ class TestSKUInit(TestCase):
                 self.attribute_obj_6,
             ],
             measurement=self.measurement_obj,
-            rating=self.rating_obj,
             images=self.images_obj,
+            prices=[self.price_obj],
+            rating=self.rating_obj,
+            links=self.links,
             metadata=self.metadata_obj,
         )
 
@@ -185,7 +187,6 @@ class TestSKUInit(TestCase):
                 "brand": self.brand,
                 "description": self.description,
                 "gtin": self.gtin,
-                "prices": [self.price_dict],
                 "segments": self.segments,
                 "attributes": [
                     self.attribute_dict_1,
@@ -196,8 +197,10 @@ class TestSKUInit(TestCase):
                     self.attribute_dict_6,
                 ],
                 "measurement": self.measurement_dict,
-                "rating": self.rating_dict,
                 "images": self.images_dict,
+                "prices": [self.price_dict],
+                "rating": self.rating_dict,
+                "links": self.links,
                 "metadata": self.metadata_dict,
             }
         )
@@ -217,7 +220,6 @@ class TestSKUInit(TestCase):
             brand=self.brand,
             description=self.description,
             gtin=self.gtin,
-            prices=[self.price_dict],
             segments=self.segments,
             attributes=[
                 self.attribute_dict_1,
@@ -228,8 +230,10 @@ class TestSKUInit(TestCase):
                 self.attribute_dict_6,
             ],
             measurement=self.measurement_dict,
-            rating=self.rating_dict,
             images=self.images_dict,
+            prices=[self.price_dict],
+            rating=self.rating_dict,
+            links=self.links,
             metadata=self.metadata_dict,
         )
 
