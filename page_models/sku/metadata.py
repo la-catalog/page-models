@@ -4,7 +4,7 @@ from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
-from page_models.validators import val_url
+from page_models.validators import val_str, val_url
 
 
 @dataclass(config=core_config)
@@ -33,12 +33,16 @@ class Metadata(CoreModel):
 
     sources: list[str] = Field(min_items=1)
     query: str = None
-    origin: str = Field(min_length=1)
+    origin: str = None
     grade: int = Field(default=0, ge=0)
     relatives: dict[str, bool] = Field(default_factory=dict)
     links: list[str] = Field(default_factory=list)
 
     hash: str = None
+
+    _origin = validator("origin", allow_reuse=True)(
+        val_str(min_length=1, to_upper=True, ignore_values=[None])
+    )
 
     _sources = validator("sources", allow_reuse=True)(val_url(each_item=True))
     _links = validator("links", allow_reuse=True)(val_url(each_item=True))

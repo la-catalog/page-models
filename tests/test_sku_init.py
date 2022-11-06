@@ -132,11 +132,10 @@ class TestSKUInit(TestCase):
             },
         ]
         self.metadata_obj = Metadata(
-            origin="test", sources=["https://www.americanas.com.br/produto/3616585721"]
+            sources=["https://www.americanas.com.br/produto/3616585721"]
         )
         self.metadata_dict = {
-            "origin": "test",
-            "sources": ["https://www.americanas.com.br/produto/3616585721"],
+            "sources": ["https://www.americanas.com.br/produto/3616585721"]
         }
 
     def test_sku_from_objects(self) -> None:

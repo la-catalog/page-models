@@ -50,19 +50,23 @@ class SKU(CoreModel):
     description: str = None
     gtin: str = None
     ncm: str = None
-    prices: list[Price] = Field(default_factory=list)
     segments: list[str] = Field(default_factory=list)
     attributes: list[Attribute] = Field(default_factory=list)
     measurement: Measurement = Measurement()
     package: Measurement = Measurement()
-    rating: Rating = Rating()
     audios: list[Audio] = Field(default_factory=list)
     images: list[Image] = Field(default_factory=list)
     videos: list[Video] = Field(default_factory=list)
     variations: list[str] = Field(default_factory=list)
 
+    # Unstable fields
+    # This fields are change by the store or clients
+    # and they do not represent changes in the SKU
+    prices: list[Price] = Field(default_factory=list)
+    rating: Rating = Rating()
+
     # Organization fields
-    # Field used by organization to optimize pipeline or catalog
+    # Field used by organization to help pipeline or catalog
     metadata: Metadata = Field()
 
     _code = validator("code", allow_reuse=True)(
@@ -108,6 +112,8 @@ class SKU(CoreModel):
 
         sku = self.dict()
         sku.pop("metadata", None)
+        sku.pop("prices", None)
+        sku.pop("rating", None)
 
         return sku
 
