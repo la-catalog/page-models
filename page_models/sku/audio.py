@@ -1,8 +1,9 @@
-from pydantic import Field, validator
+from pydantic import validator
 from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
-from page_models.validators import val_number, val_str, val_url
+from page_models.url import URL
+from page_models.validators import val_number, val_str
 
 
 @dataclass(config=core_config)
@@ -25,12 +26,10 @@ class Audio(CoreModel):
     https://www.azure.com/18293494/audios/<HASH>
     """
 
-    url: str
+    url: URL
     hash: str = None
     duration: int = None
     format: str = None
-
-    _url = validator("url", allow_reuse=True)(val_url())
 
     _hash = validator("hash", allow_reuse=True)(
         val_str(strip_whitespace=True, min_length=1, ignore_values=[None])
