@@ -88,15 +88,6 @@ def val_gtin(
     return func
 
 
-def val_url(each_item: bool = False) -> Callable[[str | list[str]], str | list[str]]:
-    def func(url: str):
-        return str(URL(url=url))
-
-    if each_item:
-        return lambda items: [func(i) for i in items]
-    return func
-
-
 def val_number(
     positive: bool = False,
     ignore_classes: tuple = tuple(),
