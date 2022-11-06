@@ -1,6 +1,6 @@
 from hashlib import sha3_512
 
-from pydantic import Field, validator
+from pydantic import AnyHttpUrl, Field, validator
 from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
@@ -12,7 +12,8 @@ from page_models.sku.metadata import Metadata
 from page_models.sku.price import Price
 from page_models.sku.rating import Rating
 from page_models.sku.video import Video
-from page_models.validators import val_gtin, val_str, val_url
+from page_models.url import URL
+from page_models.validators import val_gtin, val_str
 
 
 @dataclass(config=core_config)
@@ -26,16 +27,18 @@ class SKU(CoreModel):
     description - Description
     gtin - Global Trade Item Number
     ncm - Nomeclatura comum do MERCOSUL
-    prices - Prices with or without promotions
     segments - Segments from outermost to innermost
     attributes - Attributes without removing any field that is present in SKU
     measurement - Measures relative to the SKU (without being packaged)
     package - Measures after being packaged
-    rating - Review rating
     audios - Audios relative to SKU
     images - Images relative to SKU
     videos - Videos relative to SKU
     variations - URL to any variation
+
+    prices - Prices with or without promotions
+    rating - Review rating
+    links - Links to others SKUs (no related to this)
 
     metadata - Data that provides information about the SKU data
     """
@@ -57,13 +60,14 @@ class SKU(CoreModel):
     audios: list[Audio] = Field(default_factory=list)
     images: list[Image] = Field(default_factory=list)
     videos: list[Video] = Field(default_factory=list)
-    variations: list[str] = Field(default_factory=list)
+    variations: list[URL] = Field(default_factory=list)
 
     # Unstable fields
-    # This fields are change by the store or clients
-    # and they do not represent changes in the SKU
+    # This fields change to represent a temporary state of the SKU,
+    # they do not represent change in the SKU information
     prices: list[Price] = Field(default_factory=list)
     rating: Rating = Rating()
+    links: list[URL] = Field(default_factory=list)
 
     # Organization fields
     # Field used by organization to help pipeline or catalog
@@ -105,8 +109,6 @@ class SKU(CoreModel):
         val_str(strip_whitespace=True, min_length=1)
     )
 
-    _variations = validator("variations", allow_reuse=True)(val_url(each_item=True))
-
     def get_core(self) -> dict:
         """Get only the core fields."""
 
@@ -114,6 +116,7 @@ class SKU(CoreModel):
         sku.pop("metadata", None)
         sku.pop("prices", None)
         sku.pop("rating", None)
+        sku.pop("links", None)
 
         return sku
 

@@ -4,7 +4,8 @@ from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
-from page_models.validators import val_str, val_url
+from page_models.url import URL
+from page_models.validators import val_str
 
 
 @dataclass(config=core_config)
@@ -21,7 +22,6 @@ class Metadata(CoreModel):
     origin - Who triggered the pipeline
     grade - Number representing the quality of the SKU
     relatives - Code from SKUs related to the SKU
-    links - Links to others SKUs (no related to this)
 
     hash - Hash from core fields
     """
@@ -31,21 +31,17 @@ class Metadata(CoreModel):
     updated: datetime = None
     deleted: datetime = None
 
-    sources: list[str] = Field(min_items=1)
+    sources: list[URL] = Field(min_items=1)
     query: str = None
     origin: str = None
     grade: int = Field(default=0, ge=0)
     relatives: dict[str, bool] = Field(default_factory=dict)
-    links: list[str] = Field(default_factory=list)
 
     hash: str = None
 
     _origin = validator("origin", allow_reuse=True)(
         val_str(min_length=1, to_upper=True, ignore_values=[None])
     )
-
-    _sources = validator("sources", allow_reuse=True)(val_url(each_item=True))
-    _links = validator("links", allow_reuse=True)(val_url(each_item=True))
 
     def __post_init_post_parse__(self):
         self.updated = self.updated or self.created
