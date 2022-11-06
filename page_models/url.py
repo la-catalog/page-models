@@ -14,9 +14,16 @@ class URL(AnyHttpUrl):
     """
 
     def __init__(self, url: str, *args, **kwargs) -> None:
+        # Pydantic can auto transforms str to URL
+        # and in this cases it gives you the scheme.
+        if "scheme" in kwargs:
+            return super().__init__(url=url, *args, **kwargs)
+
+        # If you are building an URL without Pydantic
+        # this will let you do URL("https://www.google.com")
         scheme, found, _ = url.partition("://")
 
         if not found:
             raise ValueError(f"Scheme not found in '{url}'")
 
-        super().__init__(url=url, scheme=scheme, *args, **kwargs)
+        super().__init__(url=url, scheme=scheme)
