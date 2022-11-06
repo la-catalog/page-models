@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from page_models import SKU, Attribute, Image, Measurement, Metadata, Price, Rating
+from page_models import SKU, URL, Attribute, Image, Measurement, Metadata, Price, Rating
 
 
 class TestSKUInit(TestCase):
@@ -131,7 +131,8 @@ class TestSKUInit(TestCase):
                 "url": "https://images-americanas.b2w.io/produtos/01/00/img/3616585/7/3616585730_12SZ.jpg"
             },
         ]
-        self.links = ["https://www.americanas.com.br/produto/3616560639"]
+        self.links_obj = [URL(url="https://www.americanas.com.br/produto/3616560639")]
+        self.links_dict = ["https://www.americanas.com.br/produto/3616560639"]
         self.metadata_obj = Metadata(
             sources=["https://www.americanas.com.br/produto/3616585721"]
         )
@@ -167,7 +168,7 @@ class TestSKUInit(TestCase):
             images=self.images_obj,
             prices=[self.price_obj],
             rating=self.rating_obj,
-            links=self.links,
+            links=self.links_obj,
             metadata=self.metadata_obj,
         )
 
@@ -200,7 +201,7 @@ class TestSKUInit(TestCase):
                 "images": self.images_dict,
                 "prices": [self.price_dict],
                 "rating": self.rating_dict,
-                "links": self.links,
+                "links": self.links_dict,
                 "metadata": self.metadata_dict,
             }
         )
@@ -233,7 +234,7 @@ class TestSKUInit(TestCase):
             images=self.images_dict,
             prices=[self.price_dict],
             rating=self.rating_dict,
-            links=self.links,
+            links=self.links_dict,
             metadata=self.metadata_dict,
         )
 
