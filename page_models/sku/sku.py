@@ -78,7 +78,7 @@ class SKU(CoreModel):
     )
 
     _marketplace = validator("marketplace", allow_reuse=True)(
-        val_str(strip_whitespace=True, min_length=1, to_lower=True)
+        val_str(strip_whitespace=True, to_lower=True, min_length=1)
     )
 
     _name = validator("name", allow_reuse=True)(
