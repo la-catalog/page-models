@@ -63,8 +63,8 @@ class SKU(CoreModel):
     variations: list[URL] = Field(default_factory=list)
 
     # Unstable fields
-    # This fields change to represent a temporary state of the SKU,
-    # they do not represent change in the SKU information
+    # This fields represent a temporary information of the SKU in that marketplace,
+    # they do not represent change in the SKU core information
     prices: list[Price] = Field(default_factory=list)
     rating: Rating = Rating()
     links: list[URL] = Field(default_factory=list)
