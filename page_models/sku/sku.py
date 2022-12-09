@@ -120,7 +120,7 @@ class SKU(CoreModel):
 
         return sku
 
-    def get_hash(self) -> str:
+    def get_core_hash(self) -> str:
         """
         Get the core fields hash.
 
@@ -134,5 +134,31 @@ class SKU(CoreModel):
 
         return hash
 
+    def get_prices_hash(self) -> str:
+        """
+        Get the prices field hash.
+
+        A hash is created from the prices field which
+        tell us the SKU prices in that point in time.
+        """
+
+        data = str(self.prices).encode("UTF8")
+        hash = sha3_512(data).hexdigest()
+
+        return hash
+
+    def get_rating_hash(self) -> str:
+        """
+        Get the rating field hash.
+
+        A hash is created from the rating field which
+        tell us the SKU rating in that point in time.
+        """
+
+        data = str(self.rating).encode("UTF8")
+        hash = sha3_512(data).hexdigest()
+
+        return hash
+
     def __post_init_post_parse__(self):
-        self.metadata.hash = self.get_hash()
+        self.metadata.hash = self.get_core_hash()
