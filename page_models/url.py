@@ -20,7 +20,7 @@ class URL(AnyHttpUrl):
             return super().__init__(url=url, *args, **kwargs)
 
         # If you are building an URL without Pydantic
-        # this will let you do URL("https://www.google.com")
+        # this will let you do: URL("https://www.google.com")
         scheme, found, _ = url.partition("://")
 
         if not found:
