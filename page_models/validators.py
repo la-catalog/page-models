@@ -3,8 +3,6 @@ from typing import Any, Callable
 
 from gtin import get_gcp, has_valid_check_digit
 
-from page_models.url import URL
-
 
 def should_ignore(
     value: Any, ignore_classes: tuple = tuple(), ignore_values: tuple | list = tuple()
