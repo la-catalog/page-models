@@ -1,8 +1,7 @@
 import unittest
-from dataclasses import asdict
 from unittest import TestCase
 
-from page_models import Metadata
+from page_models.sku.metadata import Metadata
 
 
 class TestSKUMetadata(TestCase):
