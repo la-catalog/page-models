@@ -1,6 +1,6 @@
 from hashlib import sha3_512
 
-from pydantic import AnyHttpUrl, Field, validator
+from pydantic import Field, validator
 from pydantic.dataclasses import dataclass
 
 from page_models.core import CoreModel, core_config
