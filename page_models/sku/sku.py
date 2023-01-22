@@ -110,7 +110,7 @@ class SKU(CoreModel):
     )
 
     def get_core(self) -> dict:
-        """Get only the core fields."""
+        """Get only the core fields from SKU."""
 
         sku = self.dict()
         sku.pop("metadata", None)
@@ -120,45 +120,15 @@ class SKU(CoreModel):
 
         return sku
 
-    def get_core_hash(self) -> str:
-        """
-        Get the core fields hash.
-
-        A hash is created from the core fields which
-        tell us how the SKU was in that point in time.
-        """
-
-        sku = self.get_core()
-        data = str(sku).encode("UTF8")
-        hash = sha3_512(data).hexdigest()
-
-        return hash
-
-    def get_prices_hash(self) -> str:
-        """
-        Get the prices field hash.
-
-        A hash is created from the prices field which
-        tell us the SKU prices in that point in time.
-        """
-
-        data = str(self.prices).encode("UTF8")
-        hash = sha3_512(data).hexdigest()
-
-        return hash
-
-    def get_rating_hash(self) -> str:
-        """
-        Get the rating field hash.
-
-        A hash is created from the rating field which
-        tell us the SKU rating in that point in time.
-        """
-
-        data = str(self.rating).encode("UTF8")
+    def _calculate_hash(self, string: str) -> str:
+        data = str(string).encode("UTF8")
         hash = sha3_512(data).hexdigest()
 
         return hash
 
     def __post_init_post_parse__(self):
-        self.metadata.hash = self.get_core_hash()
+        # Hashes can tell us how the field was in a point in time.
+        core = self.get_core()
+        self.metadata.core_hash = self._calculate_hash(str(core))
+        self.metadata.price_hash = self._calculate_hash(str(self.prices))
+        self.metadata.rating_hash = self._calculate_hash(str(self.rating))

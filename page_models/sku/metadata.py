@@ -37,7 +37,9 @@ class Metadata(CoreModel):
     grade: int = Field(default=0, ge=0)
     relatives: dict[str, bool] = Field(default_factory=dict)
 
-    hash: str = None
+    core_hash: str = None
+    price_hash: str = None
+    rating_hash: str = None
 
     _origin = validator("origin", allow_reuse=True)(
         val_str(min_length=1, to_upper=True, ignore_values=[None])
