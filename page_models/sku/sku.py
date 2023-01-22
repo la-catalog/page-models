@@ -55,8 +55,8 @@ class SKU(CoreModel):
     ncm: str = None
     segments: list[str] = Field(default_factory=list)
     attributes: list[Attribute] = Field(default_factory=list)
-    measurement: Measurement = Measurement()
-    package: Measurement = Measurement()
+    measurement: Measurement = Field(default=Measurement())
+    package: Measurement = Field(default=Measurement())
     audios: list[Audio] = Field(default_factory=list)
     images: list[Image] = Field(default_factory=list)
     videos: list[Video] = Field(default_factory=list)
@@ -66,7 +66,7 @@ class SKU(CoreModel):
     # This fields represent a temporary information of the SKU in that marketplace,
     # they do not represent change in the SKU core information
     prices: list[Price] = Field(default_factory=list)
-    rating: Rating = Rating()
+    rating: Rating = Field(default=Rating())
     links: list[URL] = Field(default_factory=list)
 
     # Organization fields
